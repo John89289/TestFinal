@@ -8,6 +8,7 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,23 +17,26 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.example.android.nfoodapp.utilities.NetworkUtils;
+import com.google.android.gms.common.api.CommonStatusCodes;
+import com.google.android.gms.vision.barcode.Barcode;
 
 import org.json.JSONException;
 
 import java.io.IOException;
 import java.net.URL;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String>
-{
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String>, View.OnClickListener {
 
     private static final int SEARCH_LOADER = 12;
 
     private EditText mSearchBoxEditText;
     private TextView mSearchResultsTextView;
-
     private TextView mErrorMessageDisplay;
-
     private ProgressBar mLoadingIndicator;
+    private String barcode;
+
+    private static final int RC_BARCODE_CAPTURE = 9001;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,15 +46,19 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mSearchBoxEditText = (EditText) findViewById(R.id.et_search_box);
         mSearchResultsTextView = (TextView) findViewById(R.id.tv_results_display);
 
-        mErrorMessageDisplay = (TextView) findViewById(R.id.tv_results_display);
+        mErrorMessageDisplay = (TextView) findViewById(R.id.tv_error_message_display);
         mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
 
         // initialise loader
         getSupportLoaderManager().initLoader(SEARCH_LOADER, null, this);
+
+        // intiialise button
+        findViewById(R.id.read_barcode).setOnClickListener(this);
     }
 
-    private void makeSearchQuery(){
-        String barcodeQuery = mSearchBoxEditText.getText().toString();
+    private void makeSearchQuery(String barcodeQuery){
+       // String barcodeQuery = mSearchBoxEditText.getText().toString();
+       // String barcodeQuery = barcode;
 
         if (TextUtils.isEmpty(barcodeQuery)){
             return;
@@ -108,8 +116,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 // parse the url from string and perfom api search
                 try{
                     URL offUrl = new URL(searchQueryUrlString);
-                    String offSearchResults = NetworkUtils.getResponseFromHttpUrl(offUrl);
-                    return offSearchResults;
+                    return NetworkUtils.getResponseFromHttpUrl(offUrl);
                 } catch (IOException e){
                     e.printStackTrace();
                     return null;
@@ -171,11 +178,38 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public boolean onOptionsItemSelected(MenuItem item) {
         int itemThatWasClickedId = item.getItemId();
         if (itemThatWasClickedId == R.id.action_search){
-            makeSearchQuery();
+            String barcodeQuery = mSearchBoxEditText.getText().toString();
+            makeSearchQuery(barcodeQuery);
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
 
+    @Override
+    public void onClick(View view) {
+        if (view.getId() == R.id.read_barcode) {
+            // launch barcode activity
+            Intent intent = new Intent(this, BarcodeActivity.class);
+
+            startActivityForResult(intent,RC_BARCODE_CAPTURE);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == RC_BARCODE_CAPTURE){
+            if (resultCode == CommonStatusCodes.SUCCESS) {
+                if (data != null){
+                     barcode = data.getStringExtra("barcode");
+                    Log.d("barcode",barcode);
+                    makeSearchQuery(barcode);
+                }
+            }
+
+        }
+        else{
+        super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
 }

@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.android.nfoodapp">
 
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
@@ -20,6 +21,7 @@
         </activity>
         <activity android:name=".DetailActivity" />
         <activity android:name=".NutritionActivity"></activity>
+        <activity android:name=".BarcodeActivity"></activity>
     </application>
 
 </manifest>
