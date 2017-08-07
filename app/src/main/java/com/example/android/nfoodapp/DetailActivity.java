@@ -62,7 +62,7 @@ public class DetailActivity extends AppCompatActivity implements RecyclerAdapter
         mAdapter = new RecyclerAdapter(this);
         mAltResultsRecyclerView.setAdapter(mAdapter);
 
-        HashMap<String,Integer> nutData = new HashMap();
+        HashMap<String,Double> nutData = new HashMap();
 
 
         //retrieve intent + data from intent
@@ -76,6 +76,7 @@ public class DetailActivity extends AppCompatActivity implements RecyclerAdapter
                 try{
                     productName = JsonUtilities.getProductNameFromJson(mOffJson);
                     nutritionGrade = JsonUtilities.getNutritionGrade(mOffJson);
+                    JsonUtilities.getAndSetNutInfo(mOffJson,nutData);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
