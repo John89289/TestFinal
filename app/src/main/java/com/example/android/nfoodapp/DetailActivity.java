@@ -9,6 +9,8 @@ import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -53,6 +55,7 @@ public class DetailActivity extends AppCompatActivity implements RecyclerAdapter
         setContentView(R.layout.activity_detail);
 
         mProductNameDisplay = (TextView) findViewById(R.id.tv_product_name_display);
+        mDataDisplay = (TextView) findViewById(R.id.tv_contribute_display);
         mAltResultsRecyclerView = (RecyclerView) findViewById(R.id.rv_results_recycler_view);
         mProgressBarLoading = (ProgressBar) findViewById(R.id.pb_loading_indicator);
 
@@ -72,6 +75,7 @@ public class DetailActivity extends AppCompatActivity implements RecyclerAdapter
             if (intentThatStartedThisActivity.hasExtra(Intent.EXTRA_TEXT)){
 
                 mOffJson = intentThatStartedThisActivity.getStringExtra(Intent.EXTRA_TEXT);
+
                 // try to parse product name from json
                 try{
                     productName = JsonUtilities.getProductNameFromJson(mOffJson);
@@ -80,13 +84,21 @@ public class DetailActivity extends AppCompatActivity implements RecyclerAdapter
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                // if product not found refer user to OFF contribute page
+                if (productName == null) {
 
-                String title = productName + " Grade: " + Character.toString(nutritionGrade);
+                    mProductNameDisplay.setText("Product not found");
+                    mDataDisplay.setText(R.string.contribute_url);
+                    mDataDisplay.setVisibility(View.VISIBLE);
 
-                mProductNameDisplay.setText(title);
-                //mDataDisplay.setText("Alternatives: \n" );
-                makeAltQuery(mOffJson);
-                // this probably wont work
+                }
+                else{
+                    String title = productName + " Grade: " + Character.toString(nutritionGrade);
+
+                    mProductNameDisplay.setText(title);
+                    //mDataDisplay.setText("Alternatives: \n" );
+                    makeAltQuery(mOffJson);
+                }
             }
         }
     }

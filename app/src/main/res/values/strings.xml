@@ -5,4 +5,5 @@
     </string>
     <string name="search">Search</string>
     <string name="nutrition_grade_title">"Nutrition Grade: "</string>
+    <string name="contribute_url"><a href="https://uk.openfoodfacts.org/contribute">openfoodfacts.org</a></string>
 </resources>

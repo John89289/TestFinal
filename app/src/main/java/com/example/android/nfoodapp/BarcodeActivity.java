@@ -30,7 +30,7 @@ public class BarcodeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_barcode);
 
         cameraView = (SurfaceView) findViewById(R.id.camera_view);
-        barcodeInfo = (TextView) findViewById(R.id.code_info);
+        //barcodeInfo = (TextView) findViewById(R.id.code_info);
 
         barcodeDetector = new BarcodeDetector.Builder(this)
                 .build();
