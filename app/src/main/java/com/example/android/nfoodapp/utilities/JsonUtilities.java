@@ -114,6 +114,33 @@ public class JsonUtilities {
 
     }
 
+    public static void getAndSetNutInfoNoProduct(String offJSon, Map dataMap) throws JSONException {
+
+        double energy, protein, carb, sugar, fat, salt;
+
+        JSONObject offJsonObject = new JSONObject(offJSon);
+        JSONObject nutrients = offJsonObject.getJSONObject("nutriments");
+
+        energy = nutrients.getDouble("energy");
+        if (nutrients.getString("energy_unit").equals("kJ")){
+            energy = kJtoCal(energy);
+        }
+
+        protein = nutrients.getDouble("proteins");
+        carb = nutrients.getDouble("carbohydrates");
+        sugar = nutrients.getDouble("sugars");
+        fat = nutrients.getDouble("fat");
+        salt = nutrients.getDouble("salt");
+
+        dataMap.put("energy",energy);
+        dataMap.put("protein",protein);
+        dataMap.put("carbohydrates",carb);
+        dataMap.put("sugars",sugar);
+        dataMap.put("fat",fat);
+        dataMap.put("salt",salt);
+
+    }
+
     public static double kJtoCal(double kj){
         double calories;
         calories  =  kj / 4.2;

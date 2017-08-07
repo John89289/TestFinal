@@ -166,14 +166,19 @@ public class DetailActivity extends AppCompatActivity implements RecyclerAdapter
     @Override
     public void onClick(String altData) {
         Context context = this;
-        String category = null;
+        Class destinationClass = NutritionActivity.class;
+        HashMap altNutData = new HashMap();
+
         try {
-           category = JsonUtilities.getCategoryNoProduct(altData);
+           JsonUtilities.getAndSetNutInfoNoProduct(altData,altNutData);
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Toast.makeText(context,category, Toast.LENGTH_SHORT)
-                .show();
+        // go to detailed activity
+        Intent intentToStartNutActivity = new Intent(context,destinationClass);
+        intentToStartNutActivity.putExtra("hashmap",altNutData);
+        startActivity(intentToStartNutActivity);
+
     }
     // hide loading animation and show data
     private void showAltDataView(){
