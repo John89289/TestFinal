@@ -72,7 +72,10 @@ public class JsonUtilities {
 
         JSONObject offJsonObject = new JSONObject(offJSon);
         JSONObject product = offJsonObject.getJSONObject("product");
-        String category = product.getJSONArray("categories_hierarchy").getString(0);
+
+        JSONArray categories = product.getJSONArray("categories_hierarchy");
+        int index = chooseCategory(categories);
+        String category = categories.getString(index);
 
         return category;
     }
@@ -80,7 +83,10 @@ public class JsonUtilities {
     public static String getCategoryNoProduct(String offJSon) throws JSONException {
 
         JSONObject offJsonObject = new JSONObject(offJSon);
-        String category = offJsonObject.getJSONArray("categories_hierarchy").getString(1);
+
+        JSONArray categories = offJsonObject.getJSONArray("categories_hierarchy");
+        int index = chooseCategory(categories);
+        String category = categories.getString(index);
 
         return category;
     }
@@ -146,4 +152,22 @@ public class JsonUtilities {
         calories  =  kj / 4.2;
         return calories;
     }
+
+    public static int chooseCategory(JSONArray categoryHierarchy){
+        int length = categoryHierarchy.length();
+
+        /*        // if only one category use it
+        if(length == 1){
+            return 0;
+        }
+        else if (length % 2 == 1){  // if odd but not 1 take median + 1
+            return (length-1)/2 + 1;
+        }
+        // if even take median + 1
+        else {
+            return ((length / 2) + (length / 2 - 1)) / 2 + 1;
+        }*/
+        return length-1;
+    }
+    // round up
 }

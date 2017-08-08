@@ -21,7 +21,6 @@ public class BarcodeActivity extends AppCompatActivity {
 
     private SurfaceView cameraView;
     private TextView barcodeInfo;
-    private BarcodeDetector barcodeDetector;
     private CameraSource cameraSource;
 
     @Override
@@ -32,7 +31,7 @@ public class BarcodeActivity extends AppCompatActivity {
         cameraView = (SurfaceView) findViewById(R.id.camera_view);
         //barcodeInfo = (TextView) findViewById(R.id.code_info);
 
-        barcodeDetector = new BarcodeDetector.Builder(this)
+        BarcodeDetector barcodeDetector = new BarcodeDetector.Builder(this)
                 .build();
 
         cameraSource = new CameraSource

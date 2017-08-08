@@ -105,9 +105,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.AltVie
     }
     // append new data onto the end of the data ArrayList
     public void setmAltData(String[] data){
-        for(int i = 0; i <data.length; i++){
-            Log.d("tag", "setmAltData:" + data[i]);
-            mAltData.add(data[i]);
+        for (String aData : data) {
+            Log.d("tag", "setmAltData:" + aData);
+            mAltData.add(aData);
         }
         notifyDataSetChanged();
     }

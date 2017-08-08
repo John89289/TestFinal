@@ -119,6 +119,7 @@ public class DetailActivity extends AppCompatActivity implements RecyclerAdapter
             return;
         }
         //search for higher rated foods in the same category
+
         for (int i = 97; i < altChar; i++){
             String altGrade = Character.toString((char) i);
 

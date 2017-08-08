@@ -33,7 +33,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private TextView mSearchResultsTextView;
     private TextView mErrorMessageDisplay;
     private ProgressBar mLoadingIndicator;
-    private String barcode;
 
     private static final int RC_BARCODE_CAPTURE = 9001;
 
@@ -52,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         // initialise loader
         getSupportLoaderManager().initLoader(SEARCH_LOADER, null, this);
 
-        // intiialise button
+        // initialise button
         findViewById(R.id.read_barcode).setOnClickListener(this);
     }
 
@@ -201,8 +200,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         if (requestCode == RC_BARCODE_CAPTURE){
             if (resultCode == CommonStatusCodes.SUCCESS) {
                 if (data != null){
-                     barcode = data.getStringExtra("barcode");
-                    Log.d("barcode",barcode);
+                    String barcode = data.getStringExtra("barcode");
+                    Log.d("barcode", barcode);
                     makeSearchQuery(barcode);
                 }
             }
