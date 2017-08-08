@@ -5,6 +5,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Created by johnkay on 01/08/2017.
@@ -20,9 +21,8 @@ public class JsonUtilities {
         productName = offJsonObject.getString("product_name");
 
         String brandName = offJsonObject.getString("brands");
-        String fullName = brandName + " - " + productName;
 
-        return fullName;
+        return brandName + " - " + productName;
     }
     // retrieve the product name + brand name from a JSON String which has a product object
     public static String getProductNameFromJson(String offJson) throws JSONException {
@@ -33,9 +33,8 @@ public class JsonUtilities {
 
         productName = product.getString("product_name");
         String brandName = product.getString("brands");
-        String fullName = brandName + " - " + productName;
 
-        return fullName;
+        return brandName + " - " + productName;
     }
 
     // retrieve the product name + brand name from a JSON String which has a product object
@@ -44,9 +43,8 @@ public class JsonUtilities {
         String productName;
         productName = product.getString("product_name");
         String brandName = product.getString("brands");
-        String fullName = brandName + " - " + productName;
 
-        return fullName;
+        return brandName + " - " + productName;
     }
     // retrieve the NutritionGrade from a JSON String which has a product object
     public static char getNutritionGrade(String offJSon) throws JSONException {
@@ -75,9 +73,8 @@ public class JsonUtilities {
 
         JSONArray categories = product.getJSONArray("categories_hierarchy");
         int index = chooseCategory(categories);
-        String category = categories.getString(index);
 
-        return category;
+        return categories.getString(index);
     }
     // retrieve the category of a product from a json string which has no product object
     public static String getCategoryNoProduct(String offJSon) throws JSONException {
@@ -86,9 +83,8 @@ public class JsonUtilities {
 
         JSONArray categories = offJsonObject.getJSONArray("categories_hierarchy");
         int index = chooseCategory(categories);
-        String category = categories.getString(index);
 
-        return category;
+        return categories.getString(index);
     }
 
     //retrieve nutritional information
@@ -101,7 +97,7 @@ public class JsonUtilities {
         JSONObject nutrients = product.getJSONObject("nutriments");
 
         energy = nutrients.getDouble("energy");
-        if (nutrients.getString("energy_unit") == "kJ" ){
+        if (Objects.equals(nutrients.getString("energy_unit"), "kJ")){
             energy = kJtoCal(energy);
         }
 
@@ -147,7 +143,7 @@ public class JsonUtilities {
 
     }
 
-    public static double kJtoCal(double kj){
+    private static double kJtoCal(double kj){
         double calories;
         calories  =  kj / 4.2;
         return calories;

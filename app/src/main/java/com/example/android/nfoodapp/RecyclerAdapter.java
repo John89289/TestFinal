@@ -109,6 +109,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.AltVie
         boolean foundDuplicate = false;
         for (String aData : data) {
             foundDuplicate = false;
+            // check for duplicates between the string and all other strings in the Array list
             for (String product: mAltData) {
                 try {
                     if (Objects.equals(JsonUtilities.getProductNameFromJsonNoProduct(product), JsonUtilities.getProductNameFromJsonNoProduct(aData))){
