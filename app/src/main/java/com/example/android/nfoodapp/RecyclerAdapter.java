@@ -19,6 +19,7 @@ import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static android.provider.Settings.Global.getString;
 
@@ -105,9 +106,22 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.AltVie
     }
     // append new data onto the end of the data ArrayList
     public void setmAltData(String[] data){
+        boolean foundDuplicate = false;
         for (String aData : data) {
-            Log.d("tag", "setmAltData:" + aData);
-            mAltData.add(aData);
+            foundDuplicate = false;
+            for (String product: mAltData) {
+                try {
+                    if (Objects.equals(JsonUtilities.getProductNameFromJsonNoProduct(product), JsonUtilities.getProductNameFromJsonNoProduct(aData))){
+                        foundDuplicate = true;
+                        break;
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+            if(!foundDuplicate){
+                mAltData.add(aData);
+            }
         }
         notifyDataSetChanged();
     }

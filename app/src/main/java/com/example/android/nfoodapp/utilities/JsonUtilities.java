@@ -169,5 +169,14 @@ public class JsonUtilities {
         }*/
         return length-1;
     }
-    // round up
+    // get category hierarchy
+    public static JSONArray getCategoryHierarchy(String offJSon) throws JSONException {
+        JSONObject offJsonObject = new JSONObject(offJSon);
+        JSONObject product = offJsonObject.getJSONObject("product");
+
+        JSONArray categories = product.getJSONArray("categories_hierarchy");
+
+        return categories;
+    }
+
 }

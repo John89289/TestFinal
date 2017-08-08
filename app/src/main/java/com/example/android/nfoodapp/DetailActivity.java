@@ -109,24 +109,38 @@ public class DetailActivity extends AppCompatActivity implements RecyclerAdapter
         String altCat = null;
         char altChar = 'n';
         URL altSearchUrl;
+        JSONArray categoryHierarchy = null;
         try {
-            altCat = JsonUtilities.getCategory(jsonString);
+            categoryHierarchy = JsonUtilities.getCategoryHierarchy(jsonString);
+            //altCat = JsonUtilities.getCategory(jsonString);
             altChar = JsonUtilities.getNutritionGrade(jsonString);
+
         } catch (JSONException e) {
             e.printStackTrace();
+        }
+
+        //search for higher rated foods in the same category
+        // temp comment int i = 97; i < altChar; i++
+
+        for (int j = categoryHierarchy.length() - 1; j > 0; j--){
+
+            for (int i = 97; i < altChar; i++) {
+                String altGrade = Character.toString((char) i);
+                try {
+                    altCat = categoryHierarchy.getString(j);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                altSearchUrl = NetworkUtils.buildAltUrl(altCat,altGrade);
+                new AltQueryTask().execute(altSearchUrl);
+            }
+            //altSearchUrl = NetworkUtils.buildAltUrl(altCat,altGrade);
+           // new AltQueryTask().execute(altSearchUrl);
         }
         if(altCat == null){
             return;
         }
-        //search for higher rated foods in the same category
-
-        for (int i = 97; i < altChar; i++){
-            String altGrade = Character.toString((char) i);
-
-            altSearchUrl = NetworkUtils.buildAltUrl(altCat,altGrade);
-            new AltQueryTask().execute(altSearchUrl);
-        }
-
     }
     // Async task for alternate foods lookup
     public class AltQueryTask extends AsyncTask<URL, Void, String> {
@@ -153,7 +167,7 @@ public class DetailActivity extends AppCompatActivity implements RecyclerAdapter
         @Override
         protected void onPostExecute(String offJsonAltResults) {
             // get array of products (results) and append product names of each to data Textview
-            if (offJsonAltResults != null && !offJsonAltResults.equals("")){
+            if (offJsonAltResults != null && !offJsonAltResults.equals("") && mAdapter.getItemCount() < 20){
 
                 try {
                     JSONObject results = new JSONObject(offJsonAltResults);
