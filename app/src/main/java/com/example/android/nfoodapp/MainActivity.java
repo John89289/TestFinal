@@ -16,6 +16,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.example.android.nfoodapp.utilities.JsonUtilities;
 import com.example.android.nfoodapp.utilities.NetworkUtils;
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.vision.barcode.Barcode;
@@ -25,7 +26,7 @@ import org.json.JSONException;
 import java.io.IOException;
 import java.net.URL;
 
-public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<String>, View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<NutritionInfo>, View.OnClickListener {
 
     private static final int SEARCH_LOADER = 12;
 
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private TextView mSearchResultsTextView;
     private TextView mErrorMessageDisplay;
     private ProgressBar mLoadingIndicator;
+    private NutritionInfo newNutritionInfo;
 
     private static final int RC_BARCODE_CAPTURE = 9001;
 
@@ -81,11 +83,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
 
     @Override
-    public Loader<String> onCreateLoader(int id, final Bundle args) {
-        return new AsyncTaskLoader<String>(this) {
+    public Loader<NutritionInfo> onCreateLoader(int id, final Bundle args) {
+        return new AsyncTaskLoader<NutritionInfo>(this) {
 
             //raw JSON results
             String mOffJson;
+            NutritionInfo mOffNutInfo;
 
             @Override
             protected void onStartLoading() {
@@ -96,15 +99,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
                // mLoadingIndicator.setVisibility(View.VISIBLE);
 
-                if (mOffJson != null) {
-                    deliverResult(mOffJson);
+                if (mOffNutInfo != null) {
+                    deliverResult(mOffNutInfo);
                 } else {
                     forceLoad();
                 }
             }
 
             @Override
-            public String loadInBackground() {
+            public NutritionInfo loadInBackground() {
                 //extract search query
                 String searchQueryUrlString = args.getString("query");
 
@@ -115,7 +118,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 // parse the url from string and perfom api search
                 try{
                     URL offUrl = new URL(searchQueryUrlString);
-                    return NetworkUtils.getResponseFromHttpUrl(offUrl);
+                    mOffNutInfo = JsonUtilities.generateNewNutritionInfo(NetworkUtils.getResponseFromHttpUrl(offUrl));
+                    return mOffNutInfo;
                 } catch (IOException e){
                     e.printStackTrace();
                     return null;
@@ -124,15 +128,15 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
 
             @Override
-            public void deliverResult(String offJson) {
-                mOffJson = offJson;
+            public void deliverResult(NutritionInfo offJson) {
+                // populate an instance of nutritionInfo with data from json string
                 super.deliverResult(offJson);
             }
         };
     }
 
     @Override
-    public void onLoadFinished(Loader<String> loader, String data) {
+    public void onLoadFinished(Loader<NutritionInfo> loader, NutritionInfo data) {
         // hide loading indicator
         mLoadingIndicator.setVisibility(View.INVISIBLE);
 
@@ -142,9 +146,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         } else {
             // go to detailed activity
             Context context = this;
-            Class destinationClass = DetailActivity.class;
+            Class destinationClass = NutritionActivity.class;
             Intent intentToStartDetailActivity = new Intent(context,destinationClass);
-            intentToStartDetailActivity.putExtra(Intent.EXTRA_TEXT, data);
+            intentToStartDetailActivity.putExtra(Intent.EXTRA_TEXT,data);
             startActivity(intentToStartDetailActivity);
 
            // mSearchResultsTextView.setText(data);
@@ -153,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     }
 
     @Override
-    public void onLoaderReset(Loader<String> loader) {
+    public void onLoaderReset(Loader<NutritionInfo> loader) {
 
     }
 

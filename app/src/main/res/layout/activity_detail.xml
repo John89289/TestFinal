@@ -16,7 +16,8 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:text=""
-        android:textSize="22sp" />
+        android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
+        android:textColor="@color/colorPrimary"/>
 
     <FrameLayout
         android:layout_width="match_parent"

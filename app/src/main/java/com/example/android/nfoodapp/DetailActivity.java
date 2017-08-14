@@ -46,6 +46,7 @@ public class DetailActivity extends AppCompatActivity implements RecyclerAdapter
     private LinearLayoutManager mAltResultsLinearLayoutManager;
     private RecyclerAdapter mAdapter;
     private ProgressBar mProgressBarLoading;
+    private NutritionInfo productNutInfo;
 
 
 
@@ -74,18 +75,19 @@ public class DetailActivity extends AppCompatActivity implements RecyclerAdapter
         if(intentThatStartedThisActivity != null) {
             if (intentThatStartedThisActivity.hasExtra(Intent.EXTRA_TEXT)){
 
-                mOffJson = intentThatStartedThisActivity.getStringExtra(Intent.EXTRA_TEXT);
+               // mOffJson = intentThatStartedThisActivity.getStringExtra(Intent.EXTRA_TEXT);
+                productNutInfo = intentThatStartedThisActivity.getParcelableExtra(Intent.EXTRA_TEXT);
 
                 // try to parse product name from json
-                try{
+            /*    try{
                     productName = JsonUtilities.getProductNameFromJson(mOffJson);
                     nutritionGrade = JsonUtilities.getNutritionGrade(mOffJson);
                     JsonUtilities.getAndSetNutInfo(mOffJson,nutData);
                 } catch (JSONException e) {
                     e.printStackTrace();
-                }
+                }*/
                 // if product not found refer user to OFF contribute page
-                if (productName == null) {
+                if (productNutInfo.getProductName() == null) {
 
                     mProductNameDisplay.setText("Product not found");
                     mDataDisplay.setText(R.string.contribute_url);
@@ -93,44 +95,42 @@ public class DetailActivity extends AppCompatActivity implements RecyclerAdapter
 
                 }
                 else{
-                    String title = productName + " Grade: " + Character.toString(nutritionGrade);
+                    String title = productNutInfo.getProductName() + " Grade: " + productNutInfo.getNutritionGrade().toUpperCase();
 
                     mProductNameDisplay.setText(title);
                     //mDataDisplay.setText("Alternatives: \n" );
-                    makeAltQuery(mOffJson);
+                    makeAltQuery(productNutInfo);
                 }
             }
         }
     }
 
     // takes in a json string (for a product) and looks up alternatives in same category
-    private void makeAltQuery(String jsonString){
+    private void makeAltQuery(NutritionInfo offNutInfo){
         // retrieve the category of a product
         String altCat = null;
-        char altChar = 'n';
+        char altChar = offNutInfo.getNutritionGrade().charAt(0);
+        String[] categories = offNutInfo.getCategoryHierarchy();
         URL altSearchUrl;
-        JSONArray categoryHierarchy = null;
-        try {
+
+       /* try {
             categoryHierarchy = JsonUtilities.getCategoryHierarchy(jsonString);
             //altCat = JsonUtilities.getCategory(jsonString);
             altChar = JsonUtilities.getNutritionGrade(jsonString);
 
         } catch (JSONException e) {
             e.printStackTrace();
-        }
+        }*/
 
         //search for higher rated foods in the same category
         // temp comment int i = 97; i < altChar; i++
-
-        for (int j = categoryHierarchy.length() - 1; j > 0; j--){
-
+        Log.d("tag", "makeAltQuery: " + categories.length);
+        for (int j = categories.length - 1; j >= 0; j--){
+            Log.d("tag",Character.toString(altChar));
             for (int i = 97; i < altChar; i++) {
                 String altGrade = Character.toString((char) i);
-                try {
-                    altCat = categoryHierarchy.getString(j);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                altCat = offNutInfo.getCategoryHierarchy()[j];
+                Log.d("tag",altGrade + " - " + altCat);
 
                 altSearchUrl = NetworkUtils.buildAltUrl(altCat,altGrade);
                 new AltQueryTask().execute(altSearchUrl);
@@ -168,6 +168,8 @@ public class DetailActivity extends AppCompatActivity implements RecyclerAdapter
         protected void onPostExecute(String offJsonAltResults) {
             // get array of products (results) and append product names of each to data Textview
             if (offJsonAltResults != null && !offJsonAltResults.equals("") && mAdapter.getItemCount() < 20){
+
+
 
                 try {
                     JSONObject results = new JSONObject(offJsonAltResults);
@@ -217,6 +219,11 @@ public class DetailActivity extends AppCompatActivity implements RecyclerAdapter
         mAltResultsRecyclerView.setVisibility(View.INVISIBLE);
         mProgressBarLoading.setVisibility(View.VISIBLE);
     }
+
+    public String getOffJson(){
+        return mOffJson;
+    }
+
 
 
 

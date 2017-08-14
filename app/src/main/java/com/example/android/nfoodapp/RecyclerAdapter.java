@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.example.android.nfoodapp.utilities.JsonUtilities;
 import com.example.android.nfoodapp.utilities.NetworkUtils;
+import com.example.android.nfoodapp.DetailActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -61,16 +62,20 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.AltVie
     @Override
     public void onBindViewHolder(RecyclerAdapter.AltViewHolder holder, int position) {
         String productName = null;
+        String productSugar = null;
         char productGrade = 'b';
+
         try {
             productName = JsonUtilities.getProductNameFromJsonNoProduct(mAltData.get(position));
             productGrade = JsonUtilities.getNutritionGradeNoProduct(mAltData.get(position));
+            //productSugar = JsonUtilities.compareSugar(DetailActivity.getOffJson,mAltData.get(position));
+
 
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-        String description = "Nutrition Grade: " + Character.toString(productGrade);
+        String description = "Nutrition Grade: " + Character.toString(productGrade).toUpperCase();
         holder.mItemTitle.setText(productName);
         holder.mItemDescription.setText(description);
 
