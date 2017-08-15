@@ -20,6 +20,7 @@ public class NutritionInfo implements Parcelable {
 
     private long fat;
     private String fatUnit;
+    private int fatLevel;
 
     private long protein;
     private String proteinUnit;
@@ -29,17 +30,11 @@ public class NutritionInfo implements Parcelable {
 
     private long sugar;
     private String sugarUnit;
+    private int sugarLevel;
 
-    private long salt;
+    private double salt;
     private String saltUnit;
-
-
-
-
-
-    public NutritionInfo() {
-
-    }
+    private int saltLevel;
 
 
     protected NutritionInfo(Parcel in) {
@@ -50,33 +45,21 @@ public class NutritionInfo implements Parcelable {
         energyUnit = in.readString();
         fat = in.readLong();
         fatUnit = in.readString();
+        fatLevel = in.readInt();
         protein = in.readLong();
         proteinUnit = in.readString();
         carbohydrates = in.readLong();
         carbohydratesUnit = in.readString();
         sugar = in.readLong();
         sugarUnit = in.readString();
-        salt = in.readLong();
+        sugarLevel = in.readInt();
+        salt = in.readDouble();
         saltUnit = in.readString();
+        saltLevel = in.readInt();
     }
 
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(productName);
-        dest.writeString(nutritionGrade);
-        dest.writeStringArray(categoryHierarchy);
-        dest.writeLong(energy);
-        dest.writeString(energyUnit);
-        dest.writeLong(fat);
-        dest.writeString(fatUnit);
-        dest.writeLong(protein);
-        dest.writeString(proteinUnit);
-        dest.writeLong(carbohydrates);
-        dest.writeString(carbohydratesUnit);
-        dest.writeLong(sugar);
-        dest.writeString(sugarUnit);
-        dest.writeLong(salt);
-        dest.writeString(saltUnit);
+    public  NutritionInfo(){
+
     }
 
     public static final Creator<NutritionInfo> CREATOR = new Creator<NutritionInfo>() {
@@ -139,7 +122,7 @@ public class NutritionInfo implements Parcelable {
         return sugarUnit;
     }
 
-    public long getSalt() {
+    public double getSalt() {
         return salt;
     }
 
@@ -195,17 +178,12 @@ public class NutritionInfo implements Parcelable {
         this.sugarUnit = sugarUnit;
     }
 
-    public void setSalt(long salt) {
+    public void setSalt(double salt) {
         this.salt = salt;
     }
 
     public void setSaltUnit(String saltUnit) {
         this.saltUnit = saltUnit;
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
     }
 
 
@@ -217,5 +195,56 @@ public class NutritionInfo implements Parcelable {
 
     public void setCategoryHierarchy(String[] categoryHierarchy) {
         this.categoryHierarchy = categoryHierarchy;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(productName);
+        parcel.writeString(nutritionGrade);
+        parcel.writeStringArray(categoryHierarchy);
+        parcel.writeLong(energy);
+        parcel.writeString(energyUnit);
+        parcel.writeLong(fat);
+        parcel.writeString(fatUnit);
+        parcel.writeInt(fatLevel);
+        parcel.writeLong(protein);
+        parcel.writeString(proteinUnit);
+        parcel.writeLong(carbohydrates);
+        parcel.writeString(carbohydratesUnit);
+        parcel.writeLong(sugar);
+        parcel.writeString(sugarUnit);
+        parcel.writeInt(sugarLevel);
+        parcel.writeDouble(salt);
+        parcel.writeString(saltUnit);
+        parcel.writeInt(saltLevel);
+    }
+
+    public int getFatLevel() {
+        return fatLevel;
+    }
+
+    public void setFatLevel(int fatLevel) {
+        this.fatLevel = fatLevel;
+    }
+
+    public int getSugarLevel() {
+        return sugarLevel;
+    }
+
+    public void setSugarLevel(int sugarLevel) {
+        this.sugarLevel = sugarLevel;
+    }
+
+    public int getSaltLevel() {
+        return saltLevel;
+    }
+
+    public void setSaltLevel(int saltLevel) {
+        this.saltLevel = saltLevel;
     }
 }

@@ -1,6 +1,8 @@
 package com.example.android.nfoodapp.utilities;
 
+import android.graphics.Color;
 import android.util.Log;
+import android.widget.TextView;
 
 import com.example.android.nfoodapp.NutritionInfo;
 
@@ -39,6 +41,7 @@ public class JsonUtilities {
             JSONObject offJsonObject = new JSONObject(offJson);
             JSONObject product = offJsonObject.getJSONObject("product");
             JSONObject nutriments = product.getJSONObject("nutriments");
+            JSONObject nutrientLevels = product.getJSONObject("nutrient_levels");
 
             // get and format product name (brand - product) then set
             String productName = product.getString("product_name");
@@ -65,12 +68,15 @@ public class JsonUtilities {
             productInfo.setProtein(protein);
             productInfo.setProteinUnit(proteinUnit);
 
-            //get+ set fat /w units
+            ///get+ set fat /w units
             long fat = nutriments.getLong("fat");
             String fatUnit = nutriments.getString("fat_unit");
+            int fatLevel = nutrientLevelToInt(nutrientLevels.getString("fat"));
 
             productInfo.setFat(fat);
             productInfo.setFatUnit(fatUnit);
+            productInfo.setFatLevel(fatLevel);
+
 
             //get+ set carb /w units
             long carbohydrates = nutriments.getLong("carbohydrates");
@@ -82,16 +88,12 @@ public class JsonUtilities {
             //get+ set sugar /w units
             long sugar = nutriments.getLong("sugars");
             String sugarUnit = nutriments.getString("sugars_unit");
+            int sugarLevel = nutrientLevelToInt(nutrientLevels.getString("sugars"));
 
             productInfo.setSugar(sugar);
             productInfo.setSugarUnit(sugarUnit);
+            productInfo.setSugarLevel(sugarLevel);
 
-            //get+ set salt /w units
-            long salt = nutriments.getLong("salt");
-            String saltUnit = nutriments.getString("salt_unit");
-
-            productInfo.setSalt(salt);
-            productInfo.setSaltUnit(saltUnit);
 
             //get categories
             int catLength = product.getJSONArray("categories_hierarchy").length();
@@ -105,6 +107,14 @@ public class JsonUtilities {
             productInfo.setCategoryHierarchy(categories);
 
 
+            //get+ set salt /w units
+            double salt = nutriments.getDouble("salt");
+            String saltUnit = nutriments.getString("salt_unit");
+            int saltLevel = nutrientLevelToInt(nutrientLevels.getString("salt"));
+
+            productInfo.setSalt(salt);
+            productInfo.setSaltUnit(saltUnit);
+            productInfo.setSaltLevel(saltLevel);
 
 
         } catch (JSONException e) {
@@ -122,6 +132,7 @@ public class JsonUtilities {
         try {
             JSONObject offJsonObject = new JSONObject(offJson);
             JSONObject nutriments = offJsonObject.getJSONObject("nutriments");
+            JSONObject nutrientLevels = offJsonObject.getJSONObject("nutrient_levels");
 
             // get and format product name (brand - product) then set
             String productName = offJsonObject.getString("product_name");
@@ -151,9 +162,12 @@ public class JsonUtilities {
             //get+ set fat /w units
             long fat = nutriments.getLong("fat");
             String fatUnit = nutriments.getString("fat_unit");
+            int fatLevel = nutrientLevelToInt(nutrientLevels.getString("fat"));
 
             productInfo.setFat(fat);
             productInfo.setFatUnit(fatUnit);
+            productInfo.setFatLevel(fatLevel);
+
 
             //get+ set carb /w units
             long carbohydrates = nutriments.getLong("carbohydrates");
@@ -165,16 +179,20 @@ public class JsonUtilities {
             //get+ set sugar /w units
             long sugar = nutriments.getLong("sugars");
             String sugarUnit = nutriments.getString("sugars_unit");
+            int sugarLevel = nutrientLevelToInt(nutrientLevels.getString("sugars"));
 
             productInfo.setSugar(sugar);
             productInfo.setSugarUnit(sugarUnit);
+            productInfo.setSugarLevel(sugarLevel);
 
             //get+ set salt /w units
-            long salt = nutriments.getLong("salt");
+            double salt = nutriments.getDouble("salt");
             String saltUnit = nutriments.getString("salt_unit");
+            int saltLevel = nutrientLevelToInt(nutrientLevels.getString("salt"));
 
             productInfo.setSalt(salt);
             productInfo.setSaltUnit(saltUnit);
+            productInfo.setSaltLevel(saltLevel);
 
             //get categories
             int catLength = offJsonObject.getJSONArray("categories_hierarchy").length();
@@ -216,6 +234,44 @@ public class JsonUtilities {
         }
 
         return newNutInfo;
+    }
+    // takes in a string from json results and returns an int key  ALSO converts grade to a key in same way
+    public static int nutrientLevelToInt(String level){
+        int levelNumber = 0;
+
+        if (level == null) {
+            return  levelNumber;
+        }
+
+        switch (level) {
+            case "low":case "a":case "b":
+                levelNumber = 1;
+                break;
+            case "moderate":case "c":
+                levelNumber = 2;
+                break;
+            case "high":case "d":case "e":
+                levelNumber = 3;
+                break;
+        }
+        Log.d("tag", "nutrientLevelToInt: " + levelNumber);
+        return levelNumber;
+    }
+
+    // takes in a int key and sets the textview to that colour  (not a json util not work making seperate class for )
+    public static void setColour(TextView text, int key){
+
+        switch (key) {
+            case 1:
+                text.setTextColor(Color.GREEN);
+                break;
+            case 2:
+                text.setTextColor(Color.rgb(255,165,0));
+                break;
+            case 3:
+                text.setTextColor(Color.RED);
+                break;
+        }
     }
 
 

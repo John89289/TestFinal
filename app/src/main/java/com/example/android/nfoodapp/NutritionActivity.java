@@ -13,6 +13,7 @@ import android.databinding.DataBindingUtil;
 import com.example.android.nfoodapp.utilities.JsonUtilities;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 
@@ -64,15 +65,26 @@ public class NutritionActivity extends AppCompatActivity implements View.OnClick
                 else{
                     String title = productNutInfo.getProductName();
                     mNutritionProductNameTextView.setText(title);
-                    mNutritionNutGradeTextView.setText(productNutInfo.getNutritionGrade());
-                    String Calories = Long.toString(productNutInfo.getEnergy()) + productNutInfo.getEnergyUnit();
+                    mNutritionNutGradeTextView.setText(productNutInfo.getNutritionGrade().toUpperCase());
+
+                    int gradeLevel = JsonUtilities.nutrientLevelToInt(productNutInfo.getNutritionGrade());
+                    JsonUtilities.setColour(mNutritionNutGradeTextView,gradeLevel);
+
+                    String Calories = Long.toString(productNutInfo.getEnergy()) + " " + productNutInfo.getEnergyUnit();
                     mCaloriesTextView.setText(Calories);
-                    String Fat = Long.toString(productNutInfo.getFat()) + productNutInfo.getFatUnit();
+                    Log.d("value of salt",String.valueOf(productNutInfo.getSalt()));
+
+                    String Fat = String.valueOf(productNutInfo.getFat()) + productNutInfo.getFatUnit();
                     mFatValueTextView.setText(Fat);
-                    String Salt = Long.toString(productNutInfo.getSalt()) + productNutInfo.getSaltUnit();
-                    mSaltValueTextView.setText(Salt);
-                    String Sugar = Long.toString(productNutInfo.getSugar()) + productNutInfo.getSugarUnit();
+                    JsonUtilities.setColour(mFatValueTextView,productNutInfo.getFatLevel());
+
+                    String Salt = String.valueOf(productNutInfo.getSalt()) + productNutInfo.getSaltUnit();
+                    mSaltValueTextView.setText(Salt.trim());
+                    JsonUtilities.setColour(mSaltValueTextView,productNutInfo.getSaltLevel());
+
+                    String Sugar = String.valueOf(productNutInfo.getSugar()) + productNutInfo.getSugarUnit();
                     mSugarValueTextView.setText(Sugar);
+                    JsonUtilities.setColour(mSugarValueTextView,productNutInfo.getSugarLevel());
                 }
             }
         }

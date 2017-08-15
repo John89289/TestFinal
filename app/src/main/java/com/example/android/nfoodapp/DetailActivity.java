@@ -66,7 +66,6 @@ public class DetailActivity extends AppCompatActivity implements RecyclerAdapter
         mAdapter = new RecyclerAdapter(this);
         mAltResultsRecyclerView.setAdapter(mAdapter);
 
-        HashMap<String,Double> nutData = new HashMap();
 
 
         //retrieve intent + data from intent
