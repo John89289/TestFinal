@@ -21,15 +21,8 @@ public class JsonUtilities {
 
 
     // compare sugar of a lookup product and an alternate product
-    public static double compareSugar(String origJson, String altJson) throws JSONException{
-
-        JSONObject origJsonObject = new JSONObject(origJson);
-        JSONObject altJsonObject = new JSONObject(altJson);
-        JSONObject origProduct = origJsonObject.getJSONObject("product");
-        double origSugar = origProduct.getDouble("sugars");
-        double altSugar = altJsonObject.getDouble("sugars");
-
-        return altSugar - origSugar;
+    public static double compareSugar(NutritionInfo origProduct, NutritionInfo altProduct){
+        return  altProduct.getSugar() - origProduct.getSugar();
     }
     // take in a a json string and create a nutritionInfo object
     // fill in all the fields with names and nutrition info
@@ -185,15 +178,6 @@ public class JsonUtilities {
             productInfo.setSugarUnit(sugarUnit);
             productInfo.setSugarLevel(sugarLevel);
 
-            //get+ set salt /w units
-            double salt = nutriments.getDouble("salt");
-            String saltUnit = nutriments.getString("salt_unit");
-            int saltLevel = nutrientLevelToInt(nutrientLevels.getString("salt"));
-
-            productInfo.setSalt(salt);
-            productInfo.setSaltUnit(saltUnit);
-            productInfo.setSaltLevel(saltLevel);
-
             //get categories
             int catLength = offJsonObject.getJSONArray("categories_hierarchy").length();
             String[] categories = new String[catLength];
@@ -204,6 +188,16 @@ public class JsonUtilities {
 
             //set categories
             productInfo.setCategoryHierarchy(categories);
+
+
+            //get+ set salt /w units
+            double salt = nutriments.getDouble("salt");
+            String saltUnit = nutriments.getString("salt_unit");
+            int saltLevel = nutrientLevelToInt(nutrientLevels.getString("salt"));
+
+            productInfo.setSalt(salt);
+            productInfo.setSaltUnit(saltUnit);
+            productInfo.setSaltLevel(saltLevel);
 
 
 

@@ -65,15 +65,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.AltVie
         long productSugar = mAltData.get(position).getSugar();
         String productGrade = mAltData.get(position).getNutritionGrade();
 
-        /*try {
-            productName = JsonUtilities.getProductNameFromJsonNoProduct(mAltData.get(position));
-            productGrade = JsonUtilities.getNutritionGradeNoProduct(mAltData.get(position));
-            //productSugar = JsonUtilities.compareSugar(DetailActivity.getOffJson,mAltData.get(position));
-
-
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }*/
 
         String description = "Nutrition Grade: " + productGrade.toUpperCase();
         holder.mItemTitle.setText(productName);

@@ -60,7 +60,7 @@ public class NutritionActivity extends AppCompatActivity implements View.OnClick
                 // if product not found refer user to OFF contribute page
                 if (productNutInfo.getProductName() == null) {
 
-
+                    /// set text to /uk.openfoodfacts.org/contribute
                 }
                 else{
                     String title = productNutInfo.getProductName();

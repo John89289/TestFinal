@@ -77,14 +77,6 @@ public class DetailActivity extends AppCompatActivity implements RecyclerAdapter
                // mOffJson = intentThatStartedThisActivity.getStringExtra(Intent.EXTRA_TEXT);
                 productNutInfo = intentThatStartedThisActivity.getParcelableExtra(Intent.EXTRA_TEXT);
 
-                // try to parse product name from json
-            /*    try{
-                    productName = JsonUtilities.getProductNameFromJson(mOffJson);
-                    nutritionGrade = JsonUtilities.getNutritionGrade(mOffJson);
-                    JsonUtilities.getAndSetNutInfo(mOffJson,nutData);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }*/
                 // if product not found refer user to OFF contribute page
                 if (productNutInfo.getProductName() == null) {
 
@@ -169,28 +161,9 @@ public class DetailActivity extends AppCompatActivity implements RecyclerAdapter
             if (offJsonAltResults != null && !offJsonAltResults.equals("") && mAdapter.getItemCount() < 20){
 
                 NutritionInfo[] NutInfoResults = null;
-
                 NutInfoResults = JsonUtilities.generateNewNutritionInfoNoProductFromAltResults(offJsonAltResults);
-
                 mAdapter.setmAltData(NutInfoResults);
 
-                /*try {
-                    JSONObject results = new JSONObject(offJsonAltResults);
-                    JSONArray products = results.getJSONArray("products");
-                    String productsString[] = new String[products.length()];
-
-                    for (int i = 0; i < products.length(); i++){
-                        productsString[i] = products.getString(i);
-                    }
-                    mAdapter.setmAltData(productsString);
-
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }*/
-
-
-                //mDataDisplay.setText(offJsonAltResults);
             }
         }
     }
@@ -199,13 +172,6 @@ public class DetailActivity extends AppCompatActivity implements RecyclerAdapter
     public void onClick(NutritionInfo altData) {
         Context context = this;
         Class destinationClass = NutritionActivity.class;
-        //HashMap altNutData = new HashMap();
-
-        /*try {
-           JsonUtilities.getAndSetNutInfoNoProduct(altData,altNutData);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }*/
 
         // go to detailed activity
         Intent intentToStartNutActivity = new Intent(context,destinationClass);
