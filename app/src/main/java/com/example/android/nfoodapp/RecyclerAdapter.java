@@ -31,7 +31,7 @@ import static android.provider.Settings.Global.getString;
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.AltViewHolder> {
 
    // private String[] mAltData;
-    private ArrayList<String> mAltData = new ArrayList<String>();
+    private ArrayList<NutritionInfo> mAltData = new ArrayList<NutritionInfo>();
     private final AltAdapterOnClickHandler mClickHandler;
 
 
@@ -54,18 +54,18 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.AltVie
     }
     // interface to receive onClick Messages
     public interface AltAdapterOnClickHandler {
-        void onClick(String altJson);
+        void onClick(NutritionInfo altJson);
     }
 
 
     // retrieve product name from JSON string and bind to view holder
     @Override
     public void onBindViewHolder(RecyclerAdapter.AltViewHolder holder, int position) {
-        String productName = null;
-        String productSugar = null;
-        char productGrade = 'b';
+        String productName = mAltData.get(position).getProductName();
+        long productSugar = mAltData.get(position).getSugar();
+        String productGrade = mAltData.get(position).getNutritionGrade();
 
-        try {
+        /*try {
             productName = JsonUtilities.getProductNameFromJsonNoProduct(mAltData.get(position));
             productGrade = JsonUtilities.getNutritionGradeNoProduct(mAltData.get(position));
             //productSugar = JsonUtilities.compareSugar(DetailActivity.getOffJson,mAltData.get(position));
@@ -73,9 +73,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.AltVie
 
         } catch (JSONException e) {
             e.printStackTrace();
-        }
+        }*/
 
-        String description = "Nutrition Grade: " + Character.toString(productGrade).toUpperCase();
+        String description = "Nutrition Grade: " + productGrade.toUpperCase();
         holder.mItemTitle.setText(productName);
         holder.mItemDescription.setText(description);
 
@@ -104,25 +104,21 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.AltVie
         @Override
         public void onClick(View view) {
             int adapterPosition = getAdapterPosition();
-            String altData = mAltData.get(adapterPosition);
+            NutritionInfo altData = mAltData.get(adapterPosition);
             mClickHandler.onClick(altData);
         }
 
     }
     // append new data onto the end of the data ArrayList
-    public void setmAltData(String[] data){
-        boolean foundDuplicate = false;
-        for (String aData : data) {
+    public void setmAltData(NutritionInfo[] data){
+        boolean foundDuplicate;
+        for (NutritionInfo aData : data) {
             foundDuplicate = false;
             // check for duplicates between the string and all other strings in the Array list
-            for (String product: mAltData) {
-                try {
-                    if (Objects.equals(JsonUtilities.getProductNameFromJsonNoProduct(product), JsonUtilities.getProductNameFromJsonNoProduct(aData))){
-                        foundDuplicate = true;
-                        break;
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
+            for (NutritionInfo product: mAltData) {
+                if (Objects.equals(aData.getProductName(), product.getProductName())) {
+                    foundDuplicate = true;
+                    break;
                 }
             }
             if(!foundDuplicate){

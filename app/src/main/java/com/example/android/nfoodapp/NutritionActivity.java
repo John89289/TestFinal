@@ -13,6 +13,7 @@ import android.databinding.DataBindingUtil;
 import com.example.android.nfoodapp.utilities.JsonUtilities;
 
 import org.json.JSONException;
+import org.w3c.dom.Text;
 
 
 import java.util.HashMap;
@@ -20,8 +21,12 @@ import java.util.HashMap;
 public class NutritionActivity extends AppCompatActivity implements View.OnClickListener {
 
 
-    private TextView mNutritionDataTextView;
+    private TextView mNutritionNutGradeTextView;
     private TextView mNutritionProductNameTextView;
+    private TextView mCaloriesTextView;
+    private TextView mFatValueTextView;
+    private TextView mSaltValueTextView;
+    private TextView mSugarValueTextView;
     private NutritionInfo productNutInfo;
     //ActivityNutritionBinding mBinding;
 
@@ -33,6 +38,13 @@ public class NutritionActivity extends AppCompatActivity implements View.OnClick
 
         //mNutritionDataTextView = (TextView) findViewById(R.id.tv_results_display);
         mNutritionProductNameTextView = (TextView) findViewById(R.id.textViewProductName);
+        mNutritionNutGradeTextView = (TextView) findViewById(R.id.textViewNutGrade);
+        mCaloriesTextView = (TextView) findViewById(R.id.textViewCalories);
+        mFatValueTextView = (TextView) findViewById(R.id.textViewFatValue);
+        mSaltValueTextView = (TextView) findViewById(R.id.textViewSaltValue);
+        mSugarValueTextView = (TextView) findViewById(R.id.textViewSugarValue);
+
+
         findViewById(R.id.buttonFindAlt).setOnClickListener(this);
 
 
@@ -40,9 +52,9 @@ public class NutritionActivity extends AppCompatActivity implements View.OnClick
         Intent intentThatStartedThisActivity = getIntent();
 
         if(intentThatStartedThisActivity != null) {
-            if (intentThatStartedThisActivity.hasExtra(Intent.EXTRA_TEXT)){
+            if (intentThatStartedThisActivity.hasExtra("nutInfo")){
 
-                productNutInfo = intentThatStartedThisActivity.getParcelableExtra(Intent.EXTRA_TEXT);
+                productNutInfo = intentThatStartedThisActivity.getParcelableExtra("nutInfo");
 
                 // if product not found refer user to OFF contribute page
                 if (productNutInfo.getProductName() == null) {
@@ -50,8 +62,17 @@ public class NutritionActivity extends AppCompatActivity implements View.OnClick
 
                 }
                 else{
-                    String title = productNutInfo.getProductName() + " Grade: " + productNutInfo.getNutritionGrade().toUpperCase();
+                    String title = productNutInfo.getProductName();
                     mNutritionProductNameTextView.setText(title);
+                    mNutritionNutGradeTextView.setText(productNutInfo.getNutritionGrade());
+                    String Calories = Long.toString(productNutInfo.getEnergy()) + productNutInfo.getEnergyUnit();
+                    mCaloriesTextView.setText(Calories);
+                    String Fat = Long.toString(productNutInfo.getFat()) + productNutInfo.getFatUnit();
+                    mFatValueTextView.setText(Fat);
+                    String Salt = Long.toString(productNutInfo.getSalt()) + productNutInfo.getSaltUnit();
+                    mSaltValueTextView.setText(Salt);
+                    String Sugar = Long.toString(productNutInfo.getSugar()) + productNutInfo.getSugarUnit();
+                    mSugarValueTextView.setText(Sugar);
                 }
             }
         }

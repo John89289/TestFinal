@@ -169,9 +169,13 @@ public class DetailActivity extends AppCompatActivity implements RecyclerAdapter
             // get array of products (results) and append product names of each to data Textview
             if (offJsonAltResults != null && !offJsonAltResults.equals("") && mAdapter.getItemCount() < 20){
 
+                NutritionInfo[] NutInfoResults = null;
 
+                NutInfoResults = JsonUtilities.generateNewNutritionInfoNoProductFromAltResults(offJsonAltResults);
 
-                try {
+                mAdapter.setmAltData(NutInfoResults);
+
+                /*try {
                     JSONObject results = new JSONObject(offJsonAltResults);
                     JSONArray products = results.getJSONArray("products");
                     String productsString[] = new String[products.length()];
@@ -184,7 +188,7 @@ public class DetailActivity extends AppCompatActivity implements RecyclerAdapter
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                }
+                }*/
 
 
                 //mDataDisplay.setText(offJsonAltResults);
@@ -193,19 +197,20 @@ public class DetailActivity extends AppCompatActivity implements RecyclerAdapter
     }
 
     @Override
-    public void onClick(String altData) {
+    public void onClick(NutritionInfo altData) {
         Context context = this;
         Class destinationClass = NutritionActivity.class;
-        HashMap altNutData = new HashMap();
+        //HashMap altNutData = new HashMap();
 
-        try {
+        /*try {
            JsonUtilities.getAndSetNutInfoNoProduct(altData,altNutData);
         } catch (JSONException e) {
             e.printStackTrace();
-        }
+        }*/
+
         // go to detailed activity
         Intent intentToStartNutActivity = new Intent(context,destinationClass);
-        intentToStartNutActivity.putExtra("hashmap",altNutData);
+        intentToStartNutActivity.putExtra("nutInfo",altData);
         startActivity(intentToStartNutActivity);
 
     }

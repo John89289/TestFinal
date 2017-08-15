@@ -148,7 +148,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             Context context = this;
             Class destinationClass = NutritionActivity.class;
             Intent intentToStartDetailActivity = new Intent(context,destinationClass);
-            intentToStartDetailActivity.putExtra(Intent.EXTRA_TEXT,data);
+            intentToStartDetailActivity.putExtra("nutInfo",data);
             startActivity(intentToStartDetailActivity);
 
            // mSearchResultsTextView.setText(data);

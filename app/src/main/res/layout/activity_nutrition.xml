@@ -16,45 +16,35 @@
 
 
             <TextView
-                android:id="@+id/textView13"
+                android:id="@+id/textViewFatValue"
                 android:layout_width="119dp"
                 android:layout_height="68dp"
-                android:layout_marginLeft="-5dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display2"
                 tools:text="4"
                 android:gravity="center"
-                app:layout_constraintLeft_toRightOf="@+id/textView9"
-                android:layout_marginBottom="8dp"
-                app:layout_constraintBottom_toBottomOf="@+id/textView9"
-                app:layout_constraintTop_toTopOf="@+id/textView9"
-                android:layout_marginTop="0dp"
-                app:layout_constraintVertical_bias="0.0" />
+                tools:layout_editor_absoluteY="253dp"
+                tools:layout_editor_absoluteX="249dp" />
 
             <TextView
-                android:id="@+id/textView9"
+                android:id="@+id/textViewSaltValue"
                 android:layout_width="119dp"
                 android:layout_height="68dp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display2"
                 tools:text="101"
                 android:gravity="center"
-                app:layout_constraintLeft_toRightOf="@+id/textView6"
-                android:layout_marginLeft="-2dp"
-                app:layout_constraintTop_toTopOf="@+id/textView6"
-                android:layout_marginTop="0dp"
-                app:layout_constraintBottom_toBottomOf="@+id/textView6"
-                android:layout_marginBottom="8dp"
-                app:layout_constraintVertical_bias="0.0" />
+                tools:layout_editor_absoluteX="133dp"
+                tools:layout_editor_absoluteY="253dp" />
 
             <TextView
                 android:id="@+id/textViewSaltLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="-1dp"
-                tools:text="Salt"
+                android:layout_marginLeft="-638dp"
+                android:text="@string/salt"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
-                app:layout_constraintLeft_toLeftOf="@+id/textView9"
-                android:layout_marginBottom="2dp"
-                app:layout_constraintBottom_toTopOf="@+id/textView9" />
+                app:layout_constraintLeft_toLeftOf="@+id/textViewSaltValue"
+                android:layout_marginBottom="-363dp"
+                app:layout_constraintBottom_toTopOf="@+id/textViewSaltValue" />
 
             <TextView
                 tools:text="Product Name"
@@ -72,82 +62,73 @@
                 tools:layout_constraintLeft_creator="1"/>
 
             <TextView
-                android:id="@+id/textView2"
+                android:id="@+id/textViewNutGrade"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="C"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display4"
-                app:layout_constraintLeft_toRightOf="@+id/textViewProductName"
-                android:layout_marginLeft="0dp"
-                android:layout_marginRight="8dp"
+                android:layout_marginRight="31dp"
                 app:layout_constraintRight_toRightOf="parent"
-                android:layout_marginTop="-16dp"
-                app:layout_constraintTop_toBottomOf="@+id/textViewProductName"
-                app:layout_constraintHorizontal_bias="0.508" />
+                android:layout_marginTop="0dp"
+                app:layout_constraintTop_toBottomOf="@+id/textViewProductName" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/textViewCalories"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:text="250 Cal"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display2"
-                tools:layout_editor_absoluteY="86dp"
-                tools:layout_editor_absoluteX="45dp" />
-
-            <TextView
-                android:id="@+id/textView4"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                tools:text="fff"
-                tools:layout_editor_absoluteX="45dp"
-                tools:layout_editor_absoluteY="488dp" />
+                android:layout_marginTop="51dp"
+                app:layout_constraintTop_toBottomOf="@+id/textViewProductName"
+                app:layout_constraintRight_toLeftOf="@+id/textViewNutGrade"
+                android:layout_marginRight="78dp" />
 
             <TextView
                 android:id="@+id/textViewSugarLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Sugar"
+                android:text="@string/sugar"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:layout_marginLeft="0dp"
-                app:layout_constraintLeft_toLeftOf="@+id/textView6"
-                android:layout_marginBottom="2dp"
-                app:layout_constraintBottom_toTopOf="@+id/textView6" />
+                app:layout_constraintLeft_toLeftOf="@+id/textViewSugarValue"
+                android:layout_marginBottom="-1dp"
+                app:layout_constraintBottom_toTopOf="@+id/textViewSugarValue" />
 
             <TextView
-                android:id="@+id/textView6"
+                android:id="@+id/textViewSugarValue"
                 android:layout_width="119dp"
                 android:layout_height="68dp"
                 tools:text="56"
                 android:textAppearance="@style/TextAppearance.AppCompat.Display2"
                 android:gravity="center"
-                tools:layout_editor_absoluteX="16dp"
-                tools:layout_editor_absoluteY="263dp" />
+                tools:layout_editor_absoluteY="253dp"
+                tools:layout_editor_absoluteX="11dp" />
 
             <TextView
                 android:id="@+id/textViewFatLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                tools:text="Fat"
+                android:text="@string/fat"
                 android:textAppearance="@style/TextAppearance.AppCompat.Caption"
                 android:layout_marginLeft="0dp"
-                app:layout_constraintLeft_toLeftOf="@+id/textView13"
-                android:layout_marginBottom="2dp"
-                app:layout_constraintBottom_toTopOf="@+id/textView13" />
+                app:layout_constraintLeft_toLeftOf="@+id/textViewFatValue"
+                android:layout_marginBottom="0dp"
+                app:layout_constraintBottom_toTopOf="@+id/textViewFatValue" />
 
             <Button
                 android:id="@+id/buttonFindAlt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/find_alternatives"
-                app:layout_constraintBottom_toBottomOf="parent"
-                android:layout_marginBottom="70dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintTop_toBottomOf="@+id/textView9"
-                app:layout_constraintVertical_bias="0.791"
                 android:layout_marginLeft="8dp"
                 app:layout_constraintLeft_toLeftOf="parent"
                 android:layout_marginRight="8dp"
-                app:layout_constraintRight_toRightOf="parent" />
+                app:layout_constraintRight_toRightOf="parent"
+                android:layout_marginTop="8dp"
+                app:layout_constraintTop_toBottomOf="@+id/textViewSaltValue"
+                app:layout_constraintHorizontal_bias="0.502"
+                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginBottom="8dp" />
 
 
         </android.support.constraint.ConstraintLayout>
