@@ -111,8 +111,6 @@ public class JsonUtilities {
             productInfo.setSaltLevel(saltLevel);
 
             //get and set image Url
-            String imageUrl = product.getJSONObject("selected_images").getJSONObject("front").getJSONObject("display").getString("en");
-            productInfo.setImageUrl(imageUrl);
 
 
 
@@ -205,9 +203,6 @@ public class JsonUtilities {
             productInfo.setSaltUnit(saltUnit);
             productInfo.setSaltLevel(saltLevel);
 
-            //get and set image Url
-            String imageUrl = offJsonObject.getJSONObject("selected_images").getJSONObject("front").getJSONObject("display").getString("en");
-            productInfo.setImageUrl(imageUrl);
 
 
 

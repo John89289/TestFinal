@@ -12,6 +12,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -41,10 +44,8 @@ public class NutritionActivity extends AppCompatActivity implements View.OnClick
     private TextView mFatValueTextView;
     private TextView mSaltValueTextView;
     private TextView mSugarValueTextView;
-    private ImageView mTestImageView;
     private NutritionInfo productNutInfo;
-    URL imageUrl = null;
-    Bitmap ImageBitmap = null;
+
     //ActivityNutritionBinding mBinding;
 
     @Override
@@ -60,7 +61,6 @@ public class NutritionActivity extends AppCompatActivity implements View.OnClick
         mFatValueTextView = (TextView) findViewById(R.id.textViewFatValue);
         mSaltValueTextView = (TextView) findViewById(R.id.textViewSaltValue);
         mSugarValueTextView = (TextView) findViewById(R.id.textViewSugarValue);
-        mTestImageView = (ImageView) findViewById(R.id.imageViewTestImage);
 
 
         findViewById(R.id.buttonFindAlt).setOnClickListener(this);
@@ -93,14 +93,6 @@ public class NutritionActivity extends AppCompatActivity implements View.OnClick
                 else{
 
 
-
-                    try {
-                         imageUrl = new URL(productNutInfo.getImageUrl());
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
-                    }
-
-                    new ImageQueryTask().execute(imageUrl);
 
                     String title = productNutInfo.getProductName();
                     mNutritionProductNameTextView.setText(title);
@@ -148,23 +140,23 @@ public class NutritionActivity extends AppCompatActivity implements View.OnClick
 
     }
 
-    public class ImageQueryTask extends AsyncTask<URL, Integer, Bitmap>{
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.detail,menu);
+        return true;
+    }
 
-        @Override
-        protected Bitmap doInBackground(URL... urls) {
-            Bitmap bitmap = null;
-            try {
-                 bitmap = BitmapFactory.decodeStream((InputStream)new URL(productNutInfo.getImageUrl()).getContent());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return bitmap;
-        }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
 
-        @Override
-        protected void onPostExecute(Bitmap bitmap) {
-            super.onPostExecute(bitmap);
-            ImageBitmap = bitmap;
+        if (id == R.id.action_home){
+            Intent newIntent = new Intent(this, MainActivity.class);
+            newIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(newIntent);
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 }

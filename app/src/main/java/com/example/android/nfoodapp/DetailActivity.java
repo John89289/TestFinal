@@ -14,6 +14,9 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -205,6 +208,26 @@ public class DetailActivity extends AppCompatActivity implements RecyclerAdapter
 
     public String getOffJson(){
         return mOffJson;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.detail,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_home){
+            Intent newIntent = new Intent(this, MainActivity.class);
+            newIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(newIntent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 
