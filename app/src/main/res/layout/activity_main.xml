@@ -1,30 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="vertical"
     android:paddingTop="16dp"
     android:paddingRight="16dp"
     android:paddingLeft="16dp"
     tools:context="com.example.android.nfoodapp.MainActivity">
 
-    <EditText
+    <!--
+    <android.support.v7.widget.Toolbar android:id="@+id/main_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" />
+        -->
+
+    <SearchView
         android:id="@+id/et_search_box"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter a barcode number, then click Search"/>
+        android:queryHint="@string/searchHint"
+        android:inputType="text"
+        android:imeOptions="actionSearch"
+        android:iconifiedByDefault="false"
+        />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Scan Barcode"
-        android:id="@+id/read_barcode"></Button>
+        android:id="@+id/read_barcode"
+        android:layout_gravity="center"></Button>
 
 
-    <FrameLayout
+   <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+       android:visibility="gone">
 
         <TextView
             android:id="@+id/tv_results_display"
@@ -48,5 +68,6 @@
             android:layout_gravity="center"
             android:visibility="invisible" />
     </FrameLayout>
+
 
 </LinearLayout>

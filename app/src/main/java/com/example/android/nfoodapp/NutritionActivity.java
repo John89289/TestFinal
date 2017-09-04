@@ -2,11 +2,19 @@ package com.example.android.nfoodapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.Image;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import android.databinding.DataBindingUtil;
@@ -17,6 +25,11 @@ import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 
 public class NutritionActivity extends AppCompatActivity implements View.OnClickListener {
@@ -28,7 +41,10 @@ public class NutritionActivity extends AppCompatActivity implements View.OnClick
     private TextView mFatValueTextView;
     private TextView mSaltValueTextView;
     private TextView mSugarValueTextView;
+    private ImageView mTestImageView;
     private NutritionInfo productNutInfo;
+    URL imageUrl = null;
+    Bitmap ImageBitmap = null;
     //ActivityNutritionBinding mBinding;
 
     @Override
@@ -44,10 +60,22 @@ public class NutritionActivity extends AppCompatActivity implements View.OnClick
         mFatValueTextView = (TextView) findViewById(R.id.textViewFatValue);
         mSaltValueTextView = (TextView) findViewById(R.id.textViewSaltValue);
         mSugarValueTextView = (TextView) findViewById(R.id.textViewSugarValue);
+        mTestImageView = (ImageView) findViewById(R.id.imageViewTestImage);
 
 
         findViewById(R.id.buttonFindAlt).setOnClickListener(this);
+/*
+        // my_child_toolbar is defined in the layout file
+        Toolbar detailToolbar =
+                (Toolbar) findViewById(R.id.nutrition_toolbar);
+        setSupportActionBar(detailToolbar);
 
+        // Get a support ActionBar corresponding to this toolbar
+        ActionBar ab = getSupportActionBar();
+
+        // Enable the Up button
+        ab.setDisplayHomeAsUpEnabled(true);
+*/
 
 
         Intent intentThatStartedThisActivity = getIntent();
@@ -63,6 +91,17 @@ public class NutritionActivity extends AppCompatActivity implements View.OnClick
                     /// set text to /uk.openfoodfacts.org/contribute
                 }
                 else{
+
+
+
+                    try {
+                         imageUrl = new URL(productNutInfo.getImageUrl());
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
+
+                    new ImageQueryTask().execute(imageUrl);
+
                     String title = productNutInfo.getProductName();
                     mNutritionProductNameTextView.setText(title);
                     mNutritionNutGradeTextView.setText(productNutInfo.getNutritionGrade().toUpperCase());
@@ -78,13 +117,18 @@ public class NutritionActivity extends AppCompatActivity implements View.OnClick
                     mFatValueTextView.setText(Fat);
                     JsonUtilities.setColour(mFatValueTextView,productNutInfo.getFatLevel());
 
-                    String Salt = String.valueOf(productNutInfo.getSalt()) + productNutInfo.getSaltUnit();
-                    mSaltValueTextView.setText(Salt.trim());
+                    double saltValue = productNutInfo.getSalt();
+                    String roundedSaltValue = new DecimalFormat("#.##").format(saltValue);
+                    String Salt = roundedSaltValue+ productNutInfo.getSaltUnit();
+                    mSaltValueTextView.setText(Salt);
                     JsonUtilities.setColour(mSaltValueTextView,productNutInfo.getSaltLevel());
 
                     String Sugar = String.valueOf(productNutInfo.getSugar()) + productNutInfo.getSugarUnit();
                     mSugarValueTextView.setText(Sugar);
                     JsonUtilities.setColour(mSugarValueTextView,productNutInfo.getSugarLevel());
+
+
+
                 }
             }
         }
@@ -102,5 +146,25 @@ public class NutritionActivity extends AppCompatActivity implements View.OnClick
             startActivity(intentToStartDetailActivity);
         }
 
+    }
+
+    public class ImageQueryTask extends AsyncTask<URL, Integer, Bitmap>{
+
+        @Override
+        protected Bitmap doInBackground(URL... urls) {
+            Bitmap bitmap = null;
+            try {
+                 bitmap = BitmapFactory.decodeStream((InputStream)new URL(productNutInfo.getImageUrl()).getContent());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return bitmap;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap bitmap) {
+            super.onPostExecute(bitmap);
+            ImageBitmap = bitmap;
+        }
     }
 }

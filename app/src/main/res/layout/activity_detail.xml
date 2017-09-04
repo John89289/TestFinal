@@ -9,6 +9,18 @@
     android:paddingTop="16dp"
     tools:context="com.example.android.nfoodapp.DetailActivity">
 
+    <!--
+    <android.support.v7.widget.Toolbar android:id="@+id/detail_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" />
+        -->
+
 
     <TextView
         android:id="@+id/tv_product_name_display"

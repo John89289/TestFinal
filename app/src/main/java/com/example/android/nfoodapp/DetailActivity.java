@@ -6,9 +6,11 @@ import android.net.Network;
 import android.os.AsyncTask;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.Log;
@@ -66,6 +68,18 @@ public class DetailActivity extends AppCompatActivity implements RecyclerAdapter
         mAdapter = new RecyclerAdapter(this);
         mAltResultsRecyclerView.setAdapter(mAdapter);
 
+       /* // my_child_toolbar is defined in the layout file
+        Toolbar detailToolbar =
+                (Toolbar) findViewById(R.id.detail_toolbar);
+        setSupportActionBar(detailToolbar);
+
+        // Get a support ActionBar corresponding to this toolbar
+        ActionBar ab = getSupportActionBar();
+
+        // Enable the Up button
+        ab.setDisplayHomeAsUpEnabled(true);*/
+
+
 
 
         //retrieve intent + data from intent
@@ -114,7 +128,6 @@ public class DetailActivity extends AppCompatActivity implements RecyclerAdapter
         }*/
 
         //search for higher rated foods in the same category
-        // temp comment int i = 97; i < altChar; i++
         Log.d("tag", "makeAltQuery: " + categories.length);
         for (int j = categories.length - 1; j >= 0; j--){
             Log.d("tag",Character.toString(altChar));

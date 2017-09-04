@@ -102,12 +102,18 @@ public class JsonUtilities {
 
             //get+ set salt /w units
             double salt = nutriments.getDouble("salt");
-            String saltUnit = nutriments.getString("salt_unit");
+            Log.d("salt tag", "generateNewNutritionInfo: " + salt);
+            String saltUnit = "g";
             int saltLevel = nutrientLevelToInt(nutrientLevels.getString("salt"));
 
             productInfo.setSalt(salt);
             productInfo.setSaltUnit(saltUnit);
             productInfo.setSaltLevel(saltLevel);
+
+            //get and set image Url
+            String imageUrl = product.getJSONObject("selected_images").getJSONObject("front").getJSONObject("display").getString("en");
+            productInfo.setImageUrl(imageUrl);
+
 
 
         } catch (JSONException e) {
@@ -192,12 +198,16 @@ public class JsonUtilities {
 
             //get+ set salt /w units
             double salt = nutriments.getDouble("salt");
-            String saltUnit = nutriments.getString("salt_unit");
+            String saltUnit = "g";
             int saltLevel = nutrientLevelToInt(nutrientLevels.getString("salt"));
 
             productInfo.setSalt(salt);
             productInfo.setSaltUnit(saltUnit);
             productInfo.setSaltLevel(saltLevel);
+
+            //get and set image Url
+            String imageUrl = offJsonObject.getJSONObject("selected_images").getJSONObject("front").getJSONObject("display").getString("en");
+            productInfo.setImageUrl(imageUrl);
 
 
 

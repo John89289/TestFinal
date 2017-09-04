@@ -1,5 +1,6 @@
 package com.example.android.nfoodapp;
 
+import android.graphics.Bitmap;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -37,6 +38,9 @@ public class NutritionInfo implements Parcelable {
     private int saltLevel;
 
 
+   // private String imageUrl;
+
+
     protected NutritionInfo(Parcel in) {
         productName = in.readString();
         nutritionGrade = in.readString();
@@ -56,6 +60,7 @@ public class NutritionInfo implements Parcelable {
         salt = in.readDouble();
         saltUnit = in.readString();
         saltLevel = in.readInt();
+      //  imageUrl = in.readString();
     }
 
     public  NutritionInfo(){
@@ -186,6 +191,15 @@ public class NutritionInfo implements Parcelable {
         this.saltUnit = saltUnit;
     }
 
+  /*  public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+    */
+
 
 
 
@@ -222,6 +236,7 @@ public class NutritionInfo implements Parcelable {
         parcel.writeDouble(salt);
         parcel.writeString(saltUnit);
         parcel.writeInt(saltLevel);
+     //   parcel.writeString(imageUrl);
     }
 
     public int getFatLevel() {

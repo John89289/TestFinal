@@ -5,13 +5,18 @@ import android.content.Intent;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.widget.SearchView;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -30,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     private static final int SEARCH_LOADER = 12;
 
-    private EditText mSearchBoxEditText;
+    private SearchView mSearchBoxEditText;
     private TextView mSearchResultsTextView;
     private TextView mErrorMessageDisplay;
     private ProgressBar mLoadingIndicator;
@@ -44,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         // store references to views
-        mSearchBoxEditText = (EditText) findViewById(R.id.et_search_box);
+        mSearchBoxEditText = (SearchView) findViewById(R.id.et_search_box);
         mSearchResultsTextView = (TextView) findViewById(R.id.tv_results_display);
 
         mErrorMessageDisplay = (TextView) findViewById(R.id.tv_error_message_display);
@@ -52,9 +57,39 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         // initialise loader
         getSupportLoaderManager().initLoader(SEARCH_LOADER, null, this);
+        /*
+        // my_child_toolbar is defined in the layout file
+        Toolbar detailToolbar =
+                (Toolbar) findViewById(R.id.main_toolbar);
+        setSupportActionBar(detailToolbar);
+
+        // Get a support ActionBar corresponding to this toolbar
+        ActionBar ab = getSupportActionBar();
+
+        // Enable the Up button
+        ab.setDisplayHomeAsUpEnabled(true);
+        */
 
         // initialise button
         findViewById(R.id.read_barcode).setOnClickListener(this);
+        mSearchBoxEditText.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                boolean handled = false;
+                String barcodeQuery = mSearchBoxEditText.getQuery().toString();
+                makeSearchQuery(barcodeQuery);
+                handled = true;
+
+                return handled;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+
+
+        });
     }
 
     private void makeSearchQuery(String barcodeQuery){
@@ -171,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mErrorMessageDisplay.setVisibility(View.VISIBLE);
         mSearchResultsTextView.setVisibility(View.INVISIBLE);
     }
-    @Override
+ /*   @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.main, menu);
         return true;
@@ -187,7 +222,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }
         return super.onOptionsItemSelected(item);
     }
-
+*/
 
     @Override
     public void onClick(View view) {
