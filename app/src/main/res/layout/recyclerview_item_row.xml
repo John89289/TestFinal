@@ -15,19 +15,17 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <TextView
+        <CircularTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/list_item_description"
-            android:layout_gravity="left|center_vertical"
-            android:text="@string/nutrition_grade_title"
-            android:textSize="14sp"/>
+            android:layout_gravity="left" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/list_item_sugar"
-            android:layout_gravity="right|center_vertical"
+            android:layout_gravity="right"
             android:text=""
             android:textSize="14sp"/>
 

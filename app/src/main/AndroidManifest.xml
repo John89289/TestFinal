@@ -19,30 +19,33 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".DetailActivity"
-            android:parentActivityName="com.example.android.nfoodapp.MainActivity" >
+            android:parentActivityName=".MainActivity">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.android.nfoodapp.MainActivity" />
         </activity>
-
         <activity
             android:name=".NutritionActivity"
-            android:parentActivityName="com.example.android.nfoodapp.DetailActivity">
+            android:parentActivityName=".DetailActivity">
 
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.android.nfoodapp.DetailActivity" />
         </activity>
+        <activity android:name=".BarcodeActivity"></activity>
+        <activity
+            android:name=".CombinedActivity"
+            android:parentActivityName=".MainActivity">
 
-        <activity android:name=".BarcodeActivity">
-
-        </activity>
+            <!-- Parent activity meta-data to support 4.0 and lower -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.example.android.nfoodapp.MainActivity" /></activity>
     </application>
 
 </manifest>

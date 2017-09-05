@@ -181,7 +181,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         } else {
             // go to detailed activity
             Context context = this;
-            Class destinationClass = NutritionActivity.class;
+            Class destinationClass = CombinedActivity.class;
             Intent intentToStartDetailActivity = new Intent(context,destinationClass);
             intentToStartDetailActivity.putExtra("nutInfo",data);
             startActivity(intentToStartDetailActivity);
