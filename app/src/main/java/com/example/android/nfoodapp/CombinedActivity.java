@@ -22,7 +22,7 @@ import java.io.IOException;
 import java.net.URL;
 import java.text.DecimalFormat;
 
-public class CombinedActivity extends AppCompatActivity implements RecyclerAdapter.AltAdapterOnClickHandler, View.OnClickListener{
+public class CombinedActivity extends AppCompatActivity implements RecyclerAdapter.AltAdapterOnClickHandler{
 
 
 
@@ -36,14 +36,18 @@ public class CombinedActivity extends AppCompatActivity implements RecyclerAdapt
     private LinearLayoutManager mAltResultsLinearLayoutManager;
     private RecyclerAdapter mAdapter;
     private ProgressBar mProgressBarLoading;
-    //private NutritionInfo productNutInfo;
-    private TextView mNutritionNutGradeTextView;
+    private CircularTextView mNutritionNutGradeTextView;
     private TextView mNutritionProductNameTextView;
     private TextView mCaloriesTextView;
     private TextView mFatValueTextView;
     private TextView mSaltValueTextView;
     private TextView mSugarValueTextView;
+    private TextView mProteinValueTextView;
+    private TextView mCarbohydrateValueTextView;
     private NutritionInfo productNutInfo;
+    private View mFatColorView;
+    private View mSugarColorView;
+    private View mSaltColorView;
 
 
 
@@ -67,11 +71,16 @@ public class CombinedActivity extends AppCompatActivity implements RecyclerAdapt
         /// nutritionactivity variables
         //mNutritionDataTextView = (TextView) findViewById(R.id.tv_results_display);
         mNutritionProductNameTextView = (TextView) findViewById(R.id.textViewProductName);
-        mNutritionNutGradeTextView = (TextView) findViewById(R.id.textViewNutGrade);
+        mNutritionNutGradeTextView = (CircularTextView) findViewById(R.id.textViewNutGrade);
         mCaloriesTextView = (TextView) findViewById(R.id.textViewCalories);
-        mFatValueTextView = (TextView) findViewById(R.id.textViewFatValue);
-        mSaltValueTextView = (TextView) findViewById(R.id.textViewSaltValue);
-        mSugarValueTextView = (TextView) findViewById(R.id.textViewSugarValue);
+        mFatValueTextView = (TextView) findViewById(R.id.textViewFat);
+        mSaltValueTextView = (TextView) findViewById(R.id.textViewSalt);
+        mSugarValueTextView = (TextView) findViewById(R.id.textViewSugar);
+        mProteinValueTextView = (TextView) findViewById(R.id.textViewProtein);
+        mCarbohydrateValueTextView = (TextView) findViewById(R.id.textViewCarbohydrate);
+        mFatColorView = (View) findViewById(R.id.textViewFatColor);
+        mSugarColorView = (View) findViewById(R.id.textViewSugarColor);
+        mSaltColorView = (View) findViewById(R.id.textViewSaltColor);
 
         //retrieve intent + data from intent
         Intent intentThatStartedThisActivity = getIntent();
@@ -93,27 +102,37 @@ public class CombinedActivity extends AppCompatActivity implements RecyclerAdapt
                     String title = productNutInfo.getProductName();
                     mNutritionProductNameTextView.setText(title);
                     mNutritionNutGradeTextView.setText(productNutInfo.getNutritionGrade().toUpperCase());
+                    int key = JsonUtilities.nutrientLevelToInt(productNutInfo.getNutritionGrade());
+                    JsonUtilities.setColourCircle(mNutritionNutGradeTextView,key);
 
-                    int gradeLevel = JsonUtilities.nutrientLevelToInt(productNutInfo.getNutritionGrade());
-                    JsonUtilities.setColour(mNutritionNutGradeTextView,gradeLevel);
 
                     String Calories = Long.toString(productNutInfo.getEnergy()) + " " + productNutInfo.getEnergyUnit();
                     mCaloriesTextView.setText(Calories);
                     Log.d("value of salt",String.valueOf(productNutInfo.getSalt()));
 
+                    // set Fat value
                     String Fat = String.valueOf(productNutInfo.getFat()) + productNutInfo.getFatUnit();
-                    mFatValueTextView.setText(Fat);
-                    JsonUtilities.setColour(mFatValueTextView,productNutInfo.getFatLevel());
+                    mFatValueTextView.setText("Fat: " + Fat);
+                    JsonUtilities.setColour(mFatColorView,productNutInfo.getFatLevel());
+
 
                     double saltValue = productNutInfo.getSalt();
                     String roundedSaltValue = new DecimalFormat("#.##").format(saltValue);
                     String Salt = roundedSaltValue+ productNutInfo.getSaltUnit();
-                    mSaltValueTextView.setText(Salt);
-                    JsonUtilities.setColour(mSaltValueTextView,productNutInfo.getSaltLevel());
+                    mSaltValueTextView.setText("Salt: " + Salt);
+                    JsonUtilities.setColour(mSaltColorView,productNutInfo.getSaltLevel());
 
                     String Sugar = String.valueOf(productNutInfo.getSugar()) + productNutInfo.getSugarUnit();
-                    mSugarValueTextView.setText(Sugar);
-                    JsonUtilities.setColour(mSugarValueTextView,productNutInfo.getSugarLevel());
+                    mSugarValueTextView.setText("Sugar: " + Sugar);
+                    JsonUtilities.setColour(mSugarColorView,productNutInfo.getSugarLevel());
+
+                    String Protein = String.valueOf(productNutInfo.getProtein()) + productNutInfo.getProteinUnit();
+                    mProteinValueTextView.setText("Protein: " + Protein);
+
+                    String Carbohydrate = String.valueOf(productNutInfo.getCarbohydrates()) + productNutInfo.getCarbohydratesUnit();
+                    mCarbohydrateValueTextView.setText("Carbohydrate: " + Carbohydrate);
+
+
 
 
 
@@ -137,7 +156,7 @@ public class CombinedActivity extends AppCompatActivity implements RecyclerAdapt
                 else{
                     String title = productNutInfo.getProductName() + " Grade: " + productNutInfo.getNutritionGrade().toUpperCase();
 
-                    mProductNameDisplay.setText(title);
+                    //mProductNameDisplay.setText(title);
                     //mDataDisplay.setText("Alternatives: \n" );
                     makeAltQuery(productNutInfo);
                 }
@@ -145,7 +164,7 @@ public class CombinedActivity extends AppCompatActivity implements RecyclerAdapt
 
 
 
-        findViewById(R.id.buttonFindAlt).setOnClickListener(this);
+       // findViewById(R.id.buttonFindAlt).setOnClickListener(this);
 /*
         // my_child_toolbar is defined in the layout file
         Toolbar detailToolbar =
@@ -180,7 +199,9 @@ public class CombinedActivity extends AppCompatActivity implements RecyclerAdapt
         } catch (JSONException e) {
             e.printStackTrace();
         }*/
-
+        if(categories == null){
+            return;
+        }
         //search for higher rated foods in the same category
         Log.d("tag", "makeAltQuery: " + categories.length);
         for (int j = categories.length - 1; j >= 0; j--){
@@ -281,7 +302,7 @@ public class CombinedActivity extends AppCompatActivity implements RecyclerAdapt
         return super.onOptionsItemSelected(item);
     }
 
-    @Override
+    /*@Override
     public void onClick(View view) {
         Log.d("'test","here");
         int itemThatWasClickedId = view.getId();
@@ -293,7 +314,7 @@ public class CombinedActivity extends AppCompatActivity implements RecyclerAdapt
             startActivity(intentToStartDetailActivity);
         }
 
-    }
+    }*/
 
     /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {

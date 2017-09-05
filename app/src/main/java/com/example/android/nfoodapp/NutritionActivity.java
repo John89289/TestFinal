@@ -58,12 +58,12 @@ public class NutritionActivity extends AppCompatActivity implements View.OnClick
         mNutritionProductNameTextView = (TextView) findViewById(R.id.textViewProductName);
         mNutritionNutGradeTextView = (TextView) findViewById(R.id.textViewNutGrade);
         mCaloriesTextView = (TextView) findViewById(R.id.textViewCalories);
-        mFatValueTextView = (TextView) findViewById(R.id.textViewFatValue);
-        mSaltValueTextView = (TextView) findViewById(R.id.textViewSaltValue);
-        mSugarValueTextView = (TextView) findViewById(R.id.textViewSugarValue);
+        mFatValueTextView = (TextView) findViewById(R.id.textViewFat);
+        mSaltValueTextView = (TextView) findViewById(R.id.textViewSalt);
+        mSugarValueTextView = (TextView) findViewById(R.id.textViewSugar);
 
 
-        findViewById(R.id.buttonFindAlt).setOnClickListener(this);
+      //  findViewById(R.id.buttonFindAlt).setOnClickListener(this);
 /*
         // my_child_toolbar is defined in the layout file
         Toolbar detailToolbar =
@@ -130,13 +130,13 @@ public class NutritionActivity extends AppCompatActivity implements View.OnClick
     public void onClick(View view) {
         Log.d("'test","here");
         int itemThatWasClickedId = view.getId();
-        if (itemThatWasClickedId == R.id.buttonFindAlt){
+        //if (itemThatWasClickedId == R.id.buttonFindAlt){
             Context context = this;
             Class destinationClass = DetailActivity.class;
             Intent intentToStartDetailActivity = new Intent(context,destinationClass);
             intentToStartDetailActivity.putExtra(Intent.EXTRA_TEXT,productNutInfo);
             startActivity(intentToStartDetailActivity);
-        }
+        //}
 
     }
 

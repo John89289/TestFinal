@@ -2,8 +2,10 @@ package com.example.android.nfoodapp.utilities;
 
 import android.graphics.Color;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
+import com.example.android.nfoodapp.CircularTextView;
 import com.example.android.nfoodapp.NutritionInfo;
 
 import org.json.JSONArray;
@@ -258,17 +260,31 @@ public class JsonUtilities {
     }
 
     // takes in a int key and sets the textview to that colour  (not a json util not work making seperate class for )
-    public static void setColour(TextView text, int key){
+    public static void setColour(View view, int key){
 
         switch (key) {
             case 1:
-                text.setTextColor(Color.GREEN);
+                view.setBackgroundColor(Color.rgb(151, 215, 0));
                 break;
             case 2:
-                text.setTextColor(Color.rgb(255,165,0));
+                view.setBackgroundColor(Color.rgb(240,179,54));
                 break;
             case 3:
-                text.setTextColor(Color.RED);
+                view.setBackgroundColor(Color.rgb(239,51,64));
+                break;
+        }
+    }
+
+    public static void setColourCircle(CircularTextView text, int key){
+        switch (key) {
+            case 1:
+                text.setSolidColor(Color.rgb(151, 215, 0));
+                break;
+            case 2:
+                text.setSolidColor(Color.rgb(240,179,54));
+                break;
+            case 3:
+                text.setSolidColor(Color.rgb(239,51,64));
                 break;
         }
     }

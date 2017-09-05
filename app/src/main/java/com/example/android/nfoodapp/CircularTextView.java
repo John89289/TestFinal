@@ -59,14 +59,14 @@ public class CircularTextView extends android.support.v7.widget.AppCompatTextVie
 
     }
 
-    public void setStrokeColor(String color)
+    public void setStrokeColor(int color)
     {
-        strokeColor = Color.parseColor(color);
+        strokeColor = color;
     }
 
-    public void setSolidColor(String color)
+    public void setSolidColor(int color)
     {
-        solidColor = Color.parseColor(color);
+        solidColor = color;
 
     }
 }

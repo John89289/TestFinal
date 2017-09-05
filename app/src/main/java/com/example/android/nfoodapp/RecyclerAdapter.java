@@ -66,9 +66,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.AltVie
         String productGrade = mAltData.get(position).getNutritionGrade();
 
 
-        String description = "Nutrition Grade: " + productGrade.toUpperCase();
+        String description = productGrade.toUpperCase();
         holder.mItemTitle.setText(productName);
         holder.mItemDescription.setText(description);
+        int key = JsonUtilities.nutrientLevelToInt(productGrade);
+        JsonUtilities.setColourCircle(holder.mItemDescription,key);
 
     }
 
@@ -82,12 +84,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.AltVie
 
     public class AltViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         public TextView mItemTitle;
-        public TextView mItemDescription;
+        public CircularTextView mItemDescription;
 
         public AltViewHolder(View itemView) {
             super(itemView);
             mItemTitle = (TextView) itemView.findViewById(R.id.list_item_title);
-            mItemDescription = (TextView) itemView.findViewById(R.id.list_item_description);
+            mItemDescription = (CircularTextView) itemView.findViewById(R.id.list_item_description);
 
             itemView.setOnClickListener(this);
         }
@@ -107,7 +109,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.AltVie
             foundDuplicate = false;
             // check for duplicates between the string and all other strings in the Array list
             for (NutritionInfo product: mAltData) {
-                if (Objects.equals(aData.getProductName(), product.getProductName())) {
+                if (Objects.equals(aData.getProductName(), product.getProductName()) || product.getProductName().length() < 2) {
                     foundDuplicate = true;
                     break;
                 }
