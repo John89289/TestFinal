@@ -58,7 +58,7 @@ public class CombinedActivity extends AppCompatActivity implements RecyclerAdapt
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_combined);
 
-        //detailactivity variables
+        // detailactivity variables
         mProductNameDisplay = (TextView) findViewById(R.id.tv_product_name_display);
         mDataDisplay = (TextView) findViewById(R.id.tv_contribute_display);
         mAltResultsRecyclerView = (RecyclerView) findViewById(R.id.rv_results_recycler_view);
@@ -81,9 +81,9 @@ public class CombinedActivity extends AppCompatActivity implements RecyclerAdapt
         mSugarValueTextView = (TextView) findViewById(R.id.textViewSugar);
         mProteinValueTextView = (TextView) findViewById(R.id.textViewProtein);
         mCarbohydrateValueTextView = (TextView) findViewById(R.id.textViewCarbohydrate);
-        mFatColorView = (View) findViewById(R.id.textViewFatColor);
-        mSugarColorView = (View) findViewById(R.id.textViewSugarColor);
-        mSaltColorView = (View) findViewById(R.id.textViewSaltColor);
+        mFatColorView = findViewById(R.id.textViewFatColor);
+        mSugarColorView = findViewById(R.id.textViewSugarColor);
+        mSaltColorView = findViewById(R.id.textViewSaltColor);
 
         //retrieve intent + data from intent
         Intent intentThatStartedThisActivity = getIntent();
@@ -145,7 +145,7 @@ public class CombinedActivity extends AppCompatActivity implements RecyclerAdapt
                     double carbValue = productNutInfo.getCarbohydrates();
                     String roundedCarbValue = new DecimalFormat("#.##").format(carbValue);
                     String Carb = roundedCarbValue + productNutInfo.getCarbohydratesUnit();
-                    mCarbohydrateValueTextView.setText("Carbohyrdate: " + Carb);
+                    mCarbohydrateValueTextView.setText("Carbohydrate: " + Carb);
 
 
 
@@ -163,20 +163,21 @@ public class CombinedActivity extends AppCompatActivity implements RecyclerAdapt
         // if product not found refer user to OFF contribute page
         if (productNutInfo.getProductName() == null) {
 
-                    mProductNameDisplay.setText("Product not found");
-                    mDataDisplay.setText(R.string.contribute_url);
-                    mDataDisplay.setVisibility(View.VISIBLE);
-                    mOffLogoImageView.setVisibility(View.VISIBLE);
+            mProductNameDisplay.setText("Product not found");
+            mDataDisplay.setText(R.string.contribute_url);
+            mDataDisplay.setVisibility(View.VISIBLE);
+            mOffLogoImageView.setVisibility(View.VISIBLE);
 
 
-                }
-                else{
-                    String title = productNutInfo.getProductName() + " Grade: " + productNutInfo.getNutritionGrade().toUpperCase();
+        }
+        else{
+            String title = productNutInfo.getProductName() + " Grade: " + productNutInfo.getNutritionGrade().toUpperCase();
 
-                    //mProductNameDisplay.setText(title);
-                    //mDataDisplay.setText("Alternatives: \n" );
-                    makeAltQuery(productNutInfo);
-                }
+            //mProductNameDisplay.setText(title);
+            //mDataDisplay.setText("Alternatives: \n" );
+            makeAltQuery(productNutInfo);
+
+        }
 
 
 
@@ -233,6 +234,21 @@ public class CombinedActivity extends AppCompatActivity implements RecyclerAdapt
             }
             //altSearchUrl = NetworkUtils.buildAltUrl(altCat,altGrade);
             // new AltQueryTask().execute(altSearchUrl);
+
+            /// ALWAYS INCLUDE A - needs check for same product as main
+            /*
+
+            do {
+
+                String altGrade = Character.toString((char) i);
+                altCat = offNutInfo.getCategoryHierarchy()[j];
+                Log.d("tag",altGrade + " - " + altCat);
+
+                altSearchUrl = NetworkUtils.buildAltUrl(altCat,altGrade);
+                new CombinedActivity.AltQueryTask().execute(altSearchUrl);
+                i++;
+            } while (i < altChar);
+             */
         }
         if(altCat == null){
             return;

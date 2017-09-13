@@ -42,8 +42,6 @@ public class JsonUtilities {
                 return null;
             }
 
-            Log.d("tag", "generateNewNutritionInfo: states 0" + completionStates.getString(0));
-            Log.d("tag", "generateNewNutritionInfo: states 0" + completionStates.getString(1));
             JSONObject nutriments = product.getJSONObject("nutriments");
             JSONObject nutrientLevels = product.getJSONObject("nutrient_levels");
 
