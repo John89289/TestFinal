@@ -16,20 +16,20 @@ public class NutritionInfo implements Parcelable {
 
     private String[] categoryHierarchy;
 
-    private long energy;
+    private double energy;
     private String energyUnit;
 
-    private long fat;
+    private double fat;
     private String fatUnit;
     private int fatLevel;
 
-    private long protein;
+    private double protein;
     private String proteinUnit;
 
-    private long carbohydrates;
+    private double carbohydrates;
     private String carbohydratesUnit;
 
-    private long sugar;
+    private double sugar;
     private String sugarUnit;
     private int sugarLevel;
 
@@ -45,16 +45,16 @@ public class NutritionInfo implements Parcelable {
         productName = in.readString();
         nutritionGrade = in.readString();
         categoryHierarchy = in.createStringArray();
-        energy = in.readLong();
+        energy = in.readDouble();
         energyUnit = in.readString();
-        fat = in.readLong();
+        fat = in.readDouble();
         fatUnit = in.readString();
         fatLevel = in.readInt();
-        protein = in.readLong();
+        protein = in.readDouble();
         proteinUnit = in.readString();
-        carbohydrates = in.readLong();
+        carbohydrates = in.readDouble();
         carbohydratesUnit = in.readString();
-        sugar = in.readLong();
+        sugar = in.readDouble();
         sugarUnit = in.readString();
         sugarLevel = in.readInt();
         salt = in.readDouble();
@@ -87,7 +87,7 @@ public class NutritionInfo implements Parcelable {
         return nutritionGrade;
     }
 
-    public long getEnergy() {
+    public double getEnergy() {
         return energy;
     }
 
@@ -95,7 +95,7 @@ public class NutritionInfo implements Parcelable {
         return energyUnit;
     }
 
-    public long getFat() {
+    public double getFat() {
         return fat;
     }
 
@@ -103,7 +103,7 @@ public class NutritionInfo implements Parcelable {
         return fatUnit;
     }
 
-    public long getProtein() {
+    public double getProtein() {
         return protein;
     }
 
@@ -111,7 +111,7 @@ public class NutritionInfo implements Parcelable {
         return proteinUnit;
     }
 
-    public long getCarbohydrates() {
+    public double getCarbohydrates() {
         return carbohydrates;
     }
 
@@ -119,7 +119,7 @@ public class NutritionInfo implements Parcelable {
         return carbohydratesUnit;
     }
 
-    public long getSugar() {
+    public double getSugar() {
         return sugar;
     }
 
@@ -143,7 +143,7 @@ public class NutritionInfo implements Parcelable {
         this.nutritionGrade = nutritionGrade;
     }
 
-    public void setEnergy(long energy) {
+    public void setEnergy(double energy) {
         this.energy = energy;
     }
 
@@ -151,7 +151,7 @@ public class NutritionInfo implements Parcelable {
         this.energyUnit = energyUnit;
     }
 
-    public void setFat(long fat) {
+    public void setFat(double fat) {
         this.fat = fat;
     }
 
@@ -159,7 +159,7 @@ public class NutritionInfo implements Parcelable {
         this.fatUnit = fatUnit;
     }
 
-    public void setProtein(long protein) {
+    public void setProtein(double protein) {
         this.protein = protein;
     }
 
@@ -167,7 +167,7 @@ public class NutritionInfo implements Parcelable {
         this.proteinUnit = proteinUnit;
     }
 
-    public void setCarbohydrates(long carbohydrates) {
+    public void setCarbohydrates(double carbohydrates) {
         this.carbohydrates = carbohydrates;
     }
 
@@ -175,7 +175,7 @@ public class NutritionInfo implements Parcelable {
         this.carbohydratesUnit = carbohydratesUnit;
     }
 
-    public void setSugar(long sugar) {
+    public void setSugar(double sugar) {
         this.sugar = sugar;
     }
 
@@ -221,16 +221,16 @@ public class NutritionInfo implements Parcelable {
         parcel.writeString(productName);
         parcel.writeString(nutritionGrade);
         parcel.writeStringArray(categoryHierarchy);
-        parcel.writeLong(energy);
+        parcel.writeDouble(energy);
         parcel.writeString(energyUnit);
-        parcel.writeLong(fat);
+        parcel.writeDouble(fat);
         parcel.writeString(fatUnit);
         parcel.writeInt(fatLevel);
-        parcel.writeLong(protein);
+        parcel.writeDouble(protein);
         parcel.writeString(proteinUnit);
-        parcel.writeLong(carbohydrates);
+        parcel.writeDouble(carbohydrates);
         parcel.writeString(carbohydratesUnit);
-        parcel.writeLong(sugar);
+        parcel.writeDouble(sugar);
         parcel.writeString(sugarUnit);
         parcel.writeInt(sugarLevel);
         parcel.writeDouble(salt);

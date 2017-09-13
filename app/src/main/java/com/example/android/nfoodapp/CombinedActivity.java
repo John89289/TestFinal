@@ -12,6 +12,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -44,6 +45,7 @@ public class CombinedActivity extends AppCompatActivity implements RecyclerAdapt
     private TextView mSugarValueTextView;
     private TextView mProteinValueTextView;
     private TextView mCarbohydrateValueTextView;
+    private ImageView mOffLogoImageView;
     private NutritionInfo productNutInfo;
     private View mFatColorView;
     private View mSugarColorView;
@@ -61,6 +63,7 @@ public class CombinedActivity extends AppCompatActivity implements RecyclerAdapt
         mDataDisplay = (TextView) findViewById(R.id.tv_contribute_display);
         mAltResultsRecyclerView = (RecyclerView) findViewById(R.id.rv_results_recycler_view);
         mProgressBarLoading = (ProgressBar) findViewById(R.id.pb_loading_indicator);
+        mOffLogoImageView = (ImageView) findViewById(R.id.iv_off_logo_contribute);
 
         mAltResultsLinearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         mAltResultsRecyclerView.setLayoutManager(mAltResultsLinearLayoutManager);
@@ -105,32 +108,44 @@ public class CombinedActivity extends AppCompatActivity implements RecyclerAdapt
                     int key = JsonUtilities.nutrientLevelToInt(productNutInfo.getNutritionGrade());
                     JsonUtilities.setColourCircle(mNutritionNutGradeTextView,key);
 
+                    // set energy value + units
+                    double EnergyValue = productNutInfo.getEnergy();
+                    String roundedEnergyValue = new DecimalFormat("#.##").format(EnergyValue);
+                    String Energy = roundedEnergyValue + " " + productNutInfo.getEnergyUnit();
+                    mCaloriesTextView.setText(Energy);
 
-                    String Calories = Long.toString(productNutInfo.getEnergy()) + " " + productNutInfo.getEnergyUnit();
-                    mCaloriesTextView.setText(Calories);
-                    Log.d("value of salt",String.valueOf(productNutInfo.getSalt()));
-
-                    // set Fat value
-                    String Fat = String.valueOf(productNutInfo.getFat()) + productNutInfo.getFatUnit();
+                    // set Fat value, unit and colour
+                    double fatValue = productNutInfo.getFat();
+                    String roundedFatValue = new DecimalFormat("#.##").format(fatValue);
+                    String Fat = roundedFatValue + productNutInfo.getFatUnit();
                     mFatValueTextView.setText("Fat: " + Fat);
-                    JsonUtilities.setColour(mFatColorView,productNutInfo.getFatLevel());
+                    JsonUtilities.setColour( mFatColorView, productNutInfo.getFatLevel());
 
-
+                    // set Salt value, unit and colour
                     double saltValue = productNutInfo.getSalt();
                     String roundedSaltValue = new DecimalFormat("#.##").format(saltValue);
-                    String Salt = roundedSaltValue+ productNutInfo.getSaltUnit();
+                    String Salt = roundedSaltValue + productNutInfo.getSaltUnit();
                     mSaltValueTextView.setText("Salt: " + Salt);
                     JsonUtilities.setColour(mSaltColorView,productNutInfo.getSaltLevel());
 
-                    String Sugar = String.valueOf(productNutInfo.getSugar()) + productNutInfo.getSugarUnit();
+                    // set Sugar value, unit and colour
+                    double sugarValue = productNutInfo.getSugar();
+                    String roundedSugarValue = new DecimalFormat("#.##").format(sugarValue);
+                    String Sugar = roundedSugarValue + productNutInfo.getSugarUnit();
                     mSugarValueTextView.setText("Sugar: " + Sugar);
                     JsonUtilities.setColour(mSugarColorView,productNutInfo.getSugarLevel());
 
-                    String Protein = String.valueOf(productNutInfo.getProtein()) + productNutInfo.getProteinUnit();
+                    // set protein value and unit
+                    double proteinValue = productNutInfo.getProtein();
+                    String roundedProteinValue = new DecimalFormat("#.##").format(proteinValue);
+                    String Protein = roundedProteinValue + productNutInfo.getProteinUnit();
                     mProteinValueTextView.setText("Protein: " + Protein);
 
-                    String Carbohydrate = String.valueOf(productNutInfo.getCarbohydrates()) + productNutInfo.getCarbohydratesUnit();
-                    mCarbohydrateValueTextView.setText("Carbohydrate: " + Carbohydrate);
+                    // set Carbohydrate value and unit
+                    double carbValue = productNutInfo.getCarbohydrates();
+                    String roundedCarbValue = new DecimalFormat("#.##").format(carbValue);
+                    String Carb = roundedCarbValue + productNutInfo.getCarbohydratesUnit();
+                    mCarbohydrateValueTextView.setText("Carbohyrdate: " + Carb);
 
 
 
@@ -151,6 +166,8 @@ public class CombinedActivity extends AppCompatActivity implements RecyclerAdapt
                     mProductNameDisplay.setText("Product not found");
                     mDataDisplay.setText(R.string.contribute_url);
                     mDataDisplay.setVisibility(View.VISIBLE);
+                    mOffLogoImageView.setVisibility(View.VISIBLE);
+
 
                 }
                 else{

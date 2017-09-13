@@ -101,7 +101,7 @@ public class NutritionActivity extends AppCompatActivity implements View.OnClick
                     int gradeLevel = JsonUtilities.nutrientLevelToInt(productNutInfo.getNutritionGrade());
                     JsonUtilities.setColour(mNutritionNutGradeTextView,gradeLevel);
 
-                    String Calories = Long.toString(productNutInfo.getEnergy()) + " " + productNutInfo.getEnergyUnit();
+                    String Calories = Double.toString(productNutInfo.getEnergy()) + " " + productNutInfo.getEnergyUnit();
                     mCaloriesTextView.setText(Calories);
                     Log.d("value of salt",String.valueOf(productNutInfo.getSalt()));
 

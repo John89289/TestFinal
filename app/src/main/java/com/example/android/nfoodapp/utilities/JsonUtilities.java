@@ -35,6 +35,15 @@ public class JsonUtilities {
         try {
             JSONObject offJsonObject = new JSONObject(offJson);
             JSONObject product = offJsonObject.getJSONObject("product");
+            JSONArray completionStates = product.getJSONArray("states_hierarchy");
+            Log.d("tag", "generateNewNutritionInfo: states 0" + completionStates.getString(0));
+            Log.d("tag", "generateNewNutritionInfo: states 0" + completionStates.getString(1));
+            if (!completionStates.toString().contains("en:nutrition-facts-completed")){
+                return null;
+            }
+
+            Log.d("tag", "generateNewNutritionInfo: states 0" + completionStates.getString(0));
+            Log.d("tag", "generateNewNutritionInfo: states 0" + completionStates.getString(1));
             JSONObject nutriments = product.getJSONObject("nutriments");
             JSONObject nutrientLevels = product.getJSONObject("nutrient_levels");
 
@@ -50,21 +59,21 @@ public class JsonUtilities {
             productInfo.setNutritionGrade(nutritionGrade);
 
             //get+ set energy /w units
-            long energy = nutriments.getLong("energy");
+            double energy = nutriments.getDouble("energy");
             String energyUnit = nutriments.getString("energy_unit");
 
             productInfo.setEnergy(energy);
             productInfo.setEnergyUnit(energyUnit);
 
             //get+ set protein /w units
-            long protein = nutriments.getLong("proteins");
+            double protein = nutriments.getDouble("proteins");
             String proteinUnit = nutriments.getString("proteins_unit");
 
             productInfo.setProtein(protein);
             productInfo.setProteinUnit(proteinUnit);
 
             ///get+ set fat /w units
-            long fat = nutriments.getLong("fat");
+            double fat = nutriments.getDouble("fat");
             String fatUnit = nutriments.getString("fat_unit");
             int fatLevel = nutrientLevelToInt(nutrientLevels.getString("fat"));
 
@@ -74,14 +83,14 @@ public class JsonUtilities {
 
 
             //get+ set carb /w units
-            long carbohydrates = nutriments.getLong("carbohydrates");
+            double carbohydrates = nutriments.getDouble("carbohydrates");
             String carbohydratesUnit = nutriments.getString("carbohydrates_unit");
 
             productInfo.setCarbohydrates(carbohydrates);
             productInfo.setCarbohydratesUnit(carbohydratesUnit);
 
             //get+ set sugar /w units
-            long sugar = nutriments.getLong("sugars");
+            double sugar = nutriments.getDouble("sugars");
             String sugarUnit = nutriments.getString("sugars_unit");
             int sugarLevel = nutrientLevelToInt(nutrientLevels.getString("sugars"));
 
@@ -130,6 +139,11 @@ public class JsonUtilities {
 
         try {
             JSONObject offJsonObject = new JSONObject(offJson);
+            // if nutrition facts are completed
+           /* JSONArray completionStates = offJsonObject.getJSONArray("states_hierarchy");
+            if (!Objects.equals(completionStates.getString(1), "en:nutrition-facts-completed")){
+                return null;
+            }*/
             JSONObject nutriments = offJsonObject.getJSONObject("nutriments");
             JSONObject nutrientLevels = offJsonObject.getJSONObject("nutrient_levels");
 
@@ -145,21 +159,21 @@ public class JsonUtilities {
             productInfo.setNutritionGrade(nutritionGrade);
 
             //get+ set energy /w units
-            long energy = nutriments.getLong("energy");
+            double energy = nutriments.getDouble("energy");
             String energyUnit = nutriments.getString("energy_unit");
 
             productInfo.setEnergy(energy);
             productInfo.setEnergyUnit(energyUnit);
 
             //get+ set protein /w units
-            long protein = nutriments.getLong("proteins");
+            double protein = nutriments.getDouble("proteins");
             String proteinUnit = nutriments.getString("proteins_unit");
 
             productInfo.setProtein(protein);
             productInfo.setProteinUnit(proteinUnit);
 
             //get+ set fat /w units
-            long fat = nutriments.getLong("fat");
+            double fat = nutriments.getDouble("fat");
             String fatUnit = nutriments.getString("fat_unit");
             int fatLevel = nutrientLevelToInt(nutrientLevels.getString("fat"));
 
@@ -169,14 +183,14 @@ public class JsonUtilities {
 
 
             //get+ set carb /w units
-            long carbohydrates = nutriments.getLong("carbohydrates");
+            double carbohydrates = nutriments.getDouble("carbohydrates");
             String carbohydratesUnit = nutriments.getString("carbohydrates_unit");
 
             productInfo.setCarbohydrates(carbohydrates);
             productInfo.setCarbohydratesUnit(carbohydratesUnit);
 
             //get+ set sugar /w units
-            long sugar = nutriments.getLong("sugars");
+            double sugar = nutriments.getDouble("sugars");
             String sugarUnit = nutriments.getString("sugars_unit");
             int sugarLevel = nutrientLevelToInt(nutrientLevels.getString("sugars"));
 
@@ -288,6 +302,7 @@ public class JsonUtilities {
                 break;
         }
     }
+
 
 
 }

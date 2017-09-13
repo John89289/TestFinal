@@ -2,6 +2,7 @@ package com.example.android.nfoodapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
@@ -9,6 +10,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.text.TextUtils;
 import android.util.Log;
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private TextView mErrorMessageDisplay;
     private ProgressBar mLoadingIndicator;
     private NutritionInfo newNutritionInfo;
+    private ImageView mOffLogoImageView;
 
     private static final int RC_BARCODE_CAPTURE = 9001;
 
@@ -54,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         mErrorMessageDisplay = (TextView) findViewById(R.id.tv_error_message_display);
         mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
+        mOffLogoImageView = (ImageView) findViewById(R.id.iv_off_logo_main);
 
         // initialise loader
         getSupportLoaderManager().initLoader(SEARCH_LOADER, null, this);
@@ -72,6 +76,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
         // initialise button
         findViewById(R.id.read_barcode).setOnClickListener(this);
+        //initialise offlogo button
+        mOffLogoImageView.setOnClickListener(this);
+
+
         mSearchBoxEditText.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -232,6 +240,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
             startActivityForResult(intent,RC_BARCODE_CAPTURE);
         }
+        if (view.getId() == R.id.iv_off_logo_main) {
+            // launch barcode activity
+            Intent intent = new Intent();
+            intent.setAction(Intent.ACTION_VIEW);
+            intent.addCategory(Intent.CATEGORY_BROWSABLE);
+            intent.setData(Uri.parse("https://uk.openfoodfacts.org"));
+            startActivity(intent);
+        }
     }
 
     @Override
@@ -242,6 +258,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                     String barcode = data.getStringExtra("barcode");
                     Log.d("barcode", barcode);
                     makeSearchQuery(barcode);
+
                 }
             }
 

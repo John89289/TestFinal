@@ -62,7 +62,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.AltVie
     @Override
     public void onBindViewHolder(RecyclerAdapter.AltViewHolder holder, int position) {
         String productName = mAltData.get(position).getProductName();
-        long productSugar = mAltData.get(position).getSugar();
+        double productSugar = mAltData.get(position).getSugar();
         String productGrade = mAltData.get(position).getNutritionGrade();
 
 
